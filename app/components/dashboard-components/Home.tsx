@@ -1,24 +1,24 @@
-import React from 'react';
+
 
 export const Home = () => {
   return (
-    <div className="w-1/2 h-screen flex flex-col items-center justify-center text-[#E3E8F1]">
+    <div className="w-1/2 h-screen flex flex-col items-start justify-center pl-12 text-[#E3E8F1]">
       {/* Content */}
-      <div className="text-center">
+      <div className="text-left">
         {/* Title */}
-        <h1 className="text-4xl font-extrabold mb-6">
-          Amrita Winter of Code
+        <h1 className="text-6xl font-bold text-[#E3E8F1] mb-6 tracking-tight">
+         <span className="text-[#3ABEF9]">   Amrita</span> Winter of Code
         </h1>
 
         {/* Subtitle */}
-        <p className="text-base lg:text-lg text-[#B0B8D8] max-w-md mx-auto">
-          Participate in an exciting coding event at Amrita Vishwa Vidyapeetham.
-          Collaborate, learn, and build projects in a vibrant coding community.
+        <p className="text-base lg:text-lg text-white max-w-md mb-8 leading-relaxed">
+          Participate in an exciting coding event at <span className="text-[#3ABEF9]">Amrita Vishwa Vidyapeetham</span>. 
+          Collaborate,learn, and build projects in a vibrant coding community.
         </p>
 
         {/* Call-to-Action Button */}
         <div className="mt-8">
-          <button className="px-6 py-2 lg:px-8 lg:py-3 bg-[#3ABEF9] text-[#070F2B] font-semibold text-sm lg:text-lg rounded-lg hover:bg-[#535C91] hover:text-[#E3E8F1] transition">
+          <button className="px-8 py-3 bg-[#3ABEF9] text-[#070F2B] font-semibold text-lg rounded-lg hover:bg-[#3572EF] hover:text-[#E3E8F1] transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#3ABEF9]">
             Register Now
           </button>
         </div>

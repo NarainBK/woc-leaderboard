@@ -19,3 +19,22 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* Snowflake falling animation */
+@keyframes snowfall {
+  0% {
+    transform: translateY(-100px); /* Start from off-screen */
+  }
+  100% {
+    transform: translateY(100vh); /* End at the bottom of the screen */
+  }
+}
+
+.snowflake {
+  position: absolute;
+  background-color: #c6efff;
+  border-radius: 50%;
+  animation: snowfall linear infinite;
+  z-index: 1; /* Lower z-index to prevent it from overlapping other elements */
+}
+
+
