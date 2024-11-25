@@ -104,65 +104,89 @@ export const Home = () => {
 
       {/* Snowflake Image with Fixed Position */}
       <div
-        className="absolute z-0"
-        style={{
-          top: "60vh", // Fixed position (you can adjust these values as needed)
-          left: "10vw", // Fixed position (you can adjust these values as needed)
-          transform: "translate(-50%, -50%)", // Centers the image around the fixed position
-        }}
-      >
-        <Image
-          src="/snowflake.png"
-          alt="Snowflake"
-          width={50}
-          height={50}
-          priority
-          className="object-cover opacity-40 "
-        />
-      </div>
-      <div
-        className="absolute z-0"
-        style={{
-          top: "83vh", // Fixed position (you can adjust these values as needed)
-          left: "23vw", // Fixed position (you can adjust these values as needed)
-          transform: "translate(-50%, -50%)", // Centers the image around the fixed position
-        }}
-      >
-        <Image
-          src="/snowflake.png"
-          alt="Snowflake"
-          width={50}
-          height={50}
-          priority
-          className="object-cover opacity-40 "
-        />
-      </div>
-      <div
-        className="absolute z-0"
-        style={{
-          top: "15vh", // Fixed position (you can adjust these values as needed)
-          left: "5w", // Fixed position (you can adjust these values as needed)
-          transform: "translate(-50%, -50%)", // Centers the image around the fixed position
-        }}
-      >
-        <Image
-          src="/snowflake.png"
-          alt="Snowflake"
-          width={50}
-          height={50}
-          priority
-          className="object-cover opacity-40 "
-        />
-      </div>
-      <Image
-  src="/christmas-tree (1).svg"
-  alt="Snowman"
-  width={100}
-  height={100}
-  priority
-  className="dark:invert absolute bottom-9 z-20 "
-  style={{ right: '100px' }} // Adjust the '10px' to your preference
-/>
+  className="absolute z-0 animate-rotateSnowflake"
+  style={{
+    top: "60vh", 
+    left: "40vw",
+    transform: "translate(-50%, -50%)",
+  }}
+>
+  <Image
+    src="/snowflake.png"
+    alt="Snowflake"
+    width={50}
+    height={50}
+    priority
+    className="object-cover opacity-40"
+  />
+</div>
+<div
+  className="absolute z-0 animate-rotateSnowflake"
+  style={{
+    top: "83vh",
+    left: "3vw",
+    transform: "translate(-50%, -50%)",
+  }}
+>
+  <Image
+    src="/snowflake.png"
+    alt="Snowflake"
+    width={50}
+    height={50}
+    priority
+    className="object-cover opacity-40"
+  />
+</div>
+<div
+  className="absolute z-0 animate-rotateSnowflake"
+  style={{
+    top: "10vh",
+    left: "5vw", 
+    transform: "translate(-50%, -50%)",
+  }}
+>
+  <Image
+    src="/snowflake.png"
+    alt="Snowflake"
+    width={50}
+    height={50}
+    priority
+    className="object-cover opacity-40"
+  />
+</div>
+<div
+  className="absolute z-0 animate-rotateSnowflake"
+  style={{
+    top: "7vh",
+    left: "35vw", 
+    transform: "translate(-50%, -50%)",
+  }}
+>
+  <Image
+    src="/snowflake.png"
+    alt="Snowflake"
+    width={50}
+    height={50}
+    priority
+    className="object-cover opacity-40"
+  />
+</div>\<div
+  className="absolute z-0 animate-rotateSnowflake"
+  style={{
+    top: "37vh",
+    left: "65vw", 
+    transform: "translate(-50%, -50%)",
+  }}
+>
+  <Image
+    src="/snowflake.png"
+    alt="Snowflake"
+    width={50}
+    height={50}
+    priority
+    className="object-cover opacity-40"
+  />
+</div>
 
 
       <Image

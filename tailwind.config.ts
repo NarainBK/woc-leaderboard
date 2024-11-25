@@ -12,6 +12,15 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)", 
       },
+      animation: {
+        rotateSnowflake: "rotateSnowflake 10s linear infinite", // Rotate snowflake infinitely in 10 seconds
+      },
+      keyframes: {
+        rotateSnowflake: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+      },
     },
   },
   plugins: [],
