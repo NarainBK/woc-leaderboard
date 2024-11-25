@@ -179,14 +179,14 @@ export const Home = () => {
       </div>
 
       {/* Snow Background */}
-      <Image
+      {/* <Image
         src="/snowbg.png"
         alt="Snow Floor"
         layout="fill"
         objectFit="cover"
         priority
         className="object-contain md:visible absolute bottom-0 left-0 w-full h-[150px] opacity-80"
-      />
+      /> */}
     </div>
   );
 };
