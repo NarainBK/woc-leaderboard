@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
-
+import { Github } from "lucide-react";
 export const Home = () => {
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
@@ -37,6 +37,7 @@ export const Home = () => {
 
   return (
     <div className="w-full h-screen flex flex-col items-start justify-center pl-12 text-[#E3E8F1] relative">
+    
       {/* Content */}
       <div className="text-left z-10">
         {/* Title */}
@@ -91,9 +92,11 @@ export const Home = () => {
         {/* Buttons Section */}
         <div className="mt-8 flex gap-4">
           {/* GitHub Sign In Button */}
-          <button className="px-8 py-3 bg-transparent border-2 border-[#3ABEF9] text-[#3ABEF9] font-semibold text-lg rounded-lg hover:bg-[#3ABEF9] hover:text-[#E3E8F1] transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#3ABEF9] flex items-center justify-center gap-3">
-            Sign in with GitHub
-          </button>
+          
+<button className="px-8 py-3 bg-transparent border-2 border-[#3ABEF9] text-[#3ABEF9] font-semibold text-lg rounded-lg hover:bg-[#3ABEF9] hover:text-[#E3E8F1] transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#3ABEF9] flex items-center justify-center gap-3">
+  <Github size={20} /> {/* GitHub Icon */}
+  Log in with GitHub
+</button>
 
           {/* Register Button */}
           <button className="px-8 py-3 bg-transparent border-2 border-[#3ABEF9] text-[#3ABEF9] font-semibold text-lg rounded-lg hover:bg-[#3ABEF9] hover:text-[#E3E8F1] transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#3ABEF9] flex items-center justify-center gap-3">
@@ -170,7 +173,7 @@ export const Home = () => {
     priority
     className="object-cover opacity-40"
   />
-</div>\<div
+</div><div
   className="absolute z-0 animate-rotateSnowflake"
   style={{
     top: "37vh",
