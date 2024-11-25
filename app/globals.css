@@ -35,6 +35,7 @@ body {
   border-radius: 50%;
   animation: snowfall linear infinite;
   z-index: 1; /* Lower z-index to prevent it from overlapping other elements */
+  box-shadow: 1px 1px 1px 1px #c6efff;
 }
 
 
