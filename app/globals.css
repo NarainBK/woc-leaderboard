@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -78,7 +77,6 @@
   box-shadow: 1px 1px 1px 1px #c6efff;
 }
 
-
 @keyframes rotateSnowflake {
   0% {
     transform: rotate(0deg);
@@ -138,8 +136,8 @@
     radial-gradient(4px 4px at 100px 250px, #fff, transparent),
     radial-gradient(6px 6px at 200px 350px, #fff, transparent),
     radial-gradient(3px 3px at 300px 50px, #fff, transparent);
-    background-size: 650px 650px;
-    animation: snowAnim 3s linear infinite;
+  background-size: 650px 650px;
+  animation: snowAnim 3s linear infinite;
 }
 
 .snow::after {
@@ -148,7 +146,6 @@
   filter: blur(2px);
   animation-direction: reverse;
   animation-duration: 6s;
-
 }
 
 .snow::before {
@@ -174,14 +171,15 @@
 
 @keyframes glow {
   0% {
-    text-shadow: 0 0 5px #1b1a55, 0 0 10px #1b1a55, 0 0 15px #070f2b, 0 0 20px #070f2b;
+    text-shadow: 0 0 5px #1b1a55, 0 0 10px #1b1a55, 0 0 15px #070f2b,
+      0 0 20px #070f2b;
   }
   50% {
-    text-shadow: 0 0 10px #1b1a55, 0 0 20px #1b1a55, 0 0 30px #070f2b, 0 0 40px #070f2b;
+    text-shadow: 0 0 10px #1b1a55, 0 0 20px #1b1a55, 0 0 30px #070f2b,
+      0 0 40px #070f2b;
   }
   100% {
-    text-shadow: 0 0 5px #1b1a55, 0 0 10px #1b1a55, 0 0 15px #070f2b, 0 0 20px #070f2b;
+    text-shadow: 0 0 5px #1b1a55, 0 0 10px #1b1a55, 0 0 15px #070f2b,
+      0 0 20px #070f2b;
   }
 }
-
-

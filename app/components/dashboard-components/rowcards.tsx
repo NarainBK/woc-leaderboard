@@ -1,57 +1,64 @@
-  "use client";
-  import Image from "next/image";
-  import { Card } from "../ui/card";
-  import { GitPullRequest } from "lucide-react";
+"use client";
+import Image from "next/image";
+import { Card } from "../ui/card";
+import { GitPullRequest } from "lucide-react";
 
 export interface RowcardsProps {
-    index: number;
-    avatar_url?: string;
-    name: string;
-    github_id: string;
-    PRmerged: number;
-    earnedBounties: number;
-  }
+  index: number;
+  avatar_url?: string;
+  name: string;
+  github_id: string;
+  PRmerged: number;
+  earnedBounties: number;
+}
 
-  const Rowcards = (props: RowcardsProps) => {
-    return (
-      <Card className="flex items-center p-4 mx-4 my-3 border-none h-[5.5rem] bg-cover" style={{ backgroundImage: "url('cardBackground.png')" }}>
-        <div className="flex items-center w-full">
-          <p className="text-lg text-[#f2f2f3] font-semibold pl-2 w-[10%]">
-            {props.index}
-          </p>
+const Rowcards = (props: RowcardsProps) => {
+  return (
+    <Card
+      className="flex items-center p-4 mx-2 my-3 border-none h-[3.5rem] sm:h-[5.5rem]  bg-cover"
+      style={{ backgroundImage: "url('cardBackground.png')" }}
+    >
+      <div className="flex items-center w-full">
+        <p className="text-base sm:text-lg text-[#f2f2f3] font-semibold sm:pl-2 w-[10%]">
+          {props.index}
+        </p>
 
-          <div className="w-[50%] flex items-center">
-            <Image
-              src={props.avatar_url || "/default-avatar.png"}
-              alt="profile"
-              width={50}
-              height={50}
-              className="rounded-full md:w-12 md:h-12 "
-            />
-            <div className="flex flex-col items-start pl-4">
-              <p className="text-lg text-[#f2f2f3] md:text-2xl">{props.name}</p>
-              <p className="text-sm text-gray-200">@{props.github_id}</p>
-            </div>
-          </div>
-
-          <div className="flex w-[20%] items-center justify-center">
-            <GitPullRequest
-              className="bg-slate-600 rounded-full w-6 h-6 p-1"
-              color="rgb(94 234 212)"
-            />
-            <p className="text-[#f2f2f3] font-semibold text-base pl-2">
-              {props.PRmerged}
+        <div className="w-[70%] flex items-center">
+          <Image
+            src={props.avatar_url || "/default-avatar.png"}
+            alt="profile"
+            width={64}
+            height={64}
+            className="rounded-full w-10 h-10 sm:w-14 sm:h-14"
+          />
+          <div className="flex flex-col items-start pl-4">
+            <p className=" text-sm text-[#f2f2f3] sm:text-base md:text-lg lg:text-lg max-h-10 overflow-hidden text-ellipsis whitespace-pre max-w-[5rem] min-[400px]:max-w-[10rem] min-[480px]:max-w-[16rem] min-800px:max-w-[5rem] min-[900px]:max-w-[7rem] lg:max-w-[10rem] min-1280px:max-w-full">
+              {props.name}
             </p>
-          </div>
-
-          <div className="w-[20%] flex items-center justify-end md:w-[20%]">
-            <p className="text-2xl font-bold text-[#FFD700]">
-              {props.earnedBounties}
+            <p className="text-sm text-gray-200 hidden md:block min-800px:text-xs min-900px:text-sm">
+              @{props.github_id}
             </p>
           </div>
         </div>
-      </Card>
-    );
-  };
 
-  export default Rowcards;
+        <div className="w-[20%] hidden sm:flex">
+          <GitPullRequest
+            className="bg-slate-600 rounded-full w-4 h-4 sm:w-6 sm:h-6"
+            color="rgb(94 234 212)"
+          />
+          <p className="text-[#f2f2f3] font-semibold text-sm sm:text-base pl-2">
+            {props.PRmerged}
+          </p>
+        </div>
+
+        <div className="w-[40%] flex items-center justify-end sm:w-[20%]">
+          <p className="text-base sm:text-2xl font-bold text-[#FFD700]">
+            {props.earnedBounties}
+          </p>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+export default Rowcards;

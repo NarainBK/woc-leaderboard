@@ -17,7 +17,7 @@ const ProjectCard = (props: ProjectCardProps) => {
       style={{ backgroundImage: "url('cardBackground2.png')" }}
     >
       <div className="flex flex-col space-y-2">
-        <CardHeader className="text-3xl text-[#ffffff] font-semibold pb-1">
+        <CardHeader className="text-2xl sm:text-3xl text-[#ffffff] font-semibold pb-1">
           <a href={props.projectUrl} className="flex">
             <Image
               src="/icons/github.svg"
