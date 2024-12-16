@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Leaderboard from "./components/dashboard-components/leaderboard";
 import { Separator } from "@/app/components/ui/separator";
-import Usercard from "./components/dashboard-components/usercard";
+// import Usercard from "./components/dashboard-components/usercard";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Snowfall from "./components/dashboard-components/Snowfall";

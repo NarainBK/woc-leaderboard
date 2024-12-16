@@ -5,129 +5,101 @@ import Projects from "./projects";
 import Rowcards from "./rowcards";
 import { ScrollArea } from "@/app/components/ui/scroll-area";
 
+const names = [
+  ["Ashwin Narayanan S", "Ashrockzzz2003"],
+  ["Abhinav Ramakrishnan", "Abhinav-ark"],
+  ["Abineha", "abineha"],
+  ["Shreyas Vishveshwaran", "FirefoxSRV"],
+  ["Ritesh Koushik", "IAmRiteshKoushik"],
+  ["Amritha Nandini KL", "Amri-tah"],
+  ["Saran Darshan", "SaranDharshanSP"],
+  ["Vishal The Human", "VishalTheHuman"],
+  ["Kiran Rajeev", "KiranRajeev-KV"],
+  ["Vijay SB", "vijaysb0613"],
+];
+
+const shuffledNames = names.sort(() => 0.5 - Math.random());
+function getname(index: number) {
+  return shuffledNames[index];
+}
+
 const rowcardsData = [
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Alice Smith",
+    avatar_url: `https://github.com/${getname(0)[1]}.png`,
+    name: getname(0)[0],
     PRmerged: 15,
     earnedBounties: 250,
-    github_id: "alice_smith",
+    github_id: getname(0)[1],
   },
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Bob Johnson",
-    PRmerged: 22,
-    earnedBounties: 350,
-    github_id: "bob_johnson",
-  },
-  {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Charlie Brown",
+    avatar_url: `https://github.com/${getname(1)[1]}.png`,
+    name: getname(1)[0],
     PRmerged: 10,
-    earnedBounties: 180,
-    github_id: "charlie_brown",
+    earnedBounties: 200,
+    github_id: getname(1)[1],
   },
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "David Wilson",
+    avatar_url: `https://github.com/${getname(2)[1]}.png`,
+    name: getname(2)[0],
     PRmerged: 8,
     earnedBounties: 150,
-    github_id: "david_wilson",
+    github_id: getname(2)[1],
   },
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Eva White",
-    PRmerged: 30,
-    earnedBounties: 500,
-    github_id: "eva_white",
+    avatar_url: `https://github.com/${getname(3)[1]}.png`,
+    name: getname(3)[0],
+    PRmerged: 7,
+    earnedBounties: 120,
+    github_id: getname(3)[1],
   },
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Frank Harris",
-    PRmerged: 12,
-    earnedBounties: 200,
-    github_id: "frank_harris",
+    avatar_url: `https://github.com/${getname(4)[1]}.png`,
+    name: getname(4)[0],
+    PRmerged: 6,
+    earnedBounties: 100,
+    github_id: getname(4)[1],
   },
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Grace Lee",
-    PRmerged: 18,
-    earnedBounties: 270,
-    github_id: "grace_lee",
+    avatar_url: `https://github.com/${getname(5)[1]}.png`,
+    name: getname(5)[0],
+    PRmerged: 5,
+    earnedBounties: 80,
+    github_id: getname(5)[1],
   },
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Hannah Martin",
-    PRmerged: 25,
-    earnedBounties: 400,
-    github_id: "hannah_martin",
+    avatar_url: `https://github.com/${getname(6)[1]}.png`,
+    name: getname(6)[0],
+    PRmerged: 4,
+    earnedBounties: 60,
+    github_id: getname(6)[1],
   },
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Ian Thompson",
-    PRmerged: 20,
-    earnedBounties: 320,
-    github_id: "ian_thompson",
+    avatar_url: `https://github.com/${getname(7)[1]}.png`,
+    name: getname(7)[0],
+    PRmerged: 3,
+    earnedBounties: 40,
+    github_id: getname(7)[1],
   },
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Jackie Brown",
-    PRmerged: 17,
-    earnedBounties: 290,
-    github_id: "jackie_brown",
+    avatar_url: `https://github.com/${getname(8)[1]}.png`,
+    name: getname(8)[0],
+    PRmerged: 2,
+    earnedBounties: 20,
+    github_id: getname(8)[1],
   },
   {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Kevin Davis",
-    PRmerged: 14,
-    earnedBounties: 220,
-    github_id: "kevin_davis",
-  },
-  {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Laura Wilson",
-    PRmerged: 19,
-    earnedBounties: 310,
-    github_id: "laura_wilson",
-  },
-  {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Michael Scott",
-    PRmerged: 23,
-    earnedBounties: 370,
-    github_id: "michael_scott",
-  },
-  {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Nina Patel",
-    PRmerged: 16,
-    earnedBounties: 260,
-    github_id: "nina_patel",
-  },
-  {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Oscar Martinez",
-    PRmerged: 21,
-    earnedBounties: 340,
-    github_id: "oscar_martinez",
-  },
-  {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Pam Beesly",
-    PRmerged: 13,
-    earnedBounties: 210,
-    github_id: "pam_beesly",
-  },
-  {
-    avatar_url: "https://github.com/KiranRajeev-KV.png",
-    name: "Quincy Adams",
-    PRmerged: 11,
-    earnedBounties: 190,
-    github_id: "quincy_adams",
+    avatar_url: `https://github.com/${getname(9)[1]}.png`,
+    name: getname(9)[0],
+    PRmerged: 1,
+    earnedBounties: 10,
+    github_id: getname(9)[1],
   },
 ];
 
 const Leaderboard = () => {
+  const sortedData = [...rowcardsData].sort(
+    (a, b) => b.earnedBounties - a.earnedBounties
+  );
   return (
     <Card className="bg-transparent border-none p-6 relative min-h-screen rounded-none z-50">
       <Tabs defaultValue="leaderboard" className="w-full">
@@ -152,12 +124,12 @@ const Leaderboard = () => {
           </div>
 
           <ScrollArea className="max-h-[75vh] overflow-auto relative">
-          {rowcardsData.length === 0 ? (
+            {rowcardsData.length === 0 ? (
               <div className="text-center text-2xl text-[#c8c7cc] p-4">
                 Can&apos;t show leaderboard stats
               </div>
             ) : (
-              rowcardsData.map((data, index) => (
+              sortedData.map((data, index) => (
                 <Rowcards
                   key={index}
                   index={index + 1}
