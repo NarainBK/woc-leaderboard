@@ -13,7 +13,7 @@ export const Home = () => {
 
   // Update the countdown timer
   useEffect(() => {
-    const targetDate = new Date("2024-12-15T00:00:00"); // Replace with your event date
+    const targetDate = new Date("2024-12-25T00:00:00"); // Replace with your event date
 
     const calculateTimeLeft = () => {
       const now = new Date();
@@ -45,8 +45,9 @@ export const Home = () => {
 
         <p className="text-base cl:text-lg text-white max-w-md mb-8 leading-relaxed">
           Join us for an exciting coding journey at{" "}
-          <span className="text-[#3ABEF9]">Amrita Vishwa Vidyapeetham</span>. 
-          Collaborate, learn, and build innovative projects with a passionate coding community.
+          <span className="text-[#3ABEF9]">Amrita Vishwa Vidyapeetham</span>.
+          Collaborate, learn, and build innovative projects with a passionate
+          coding community.
         </p>
 
         <div className="mb-8 text-lg font-semibold">
@@ -76,8 +77,11 @@ export const Home = () => {
         {/* GitHub Image */}
         <div className="flex items-center gap-4 mb-8">
           <p className="text-white text-sm leading-relaxed">
-            Contribute to the event by visiting our official{" "}
-            <span className="text-[#3ABEF9] font-semibold">GitHub Repository</span>.
+            Contribute to the event by visiting our{" "}
+            <span className="text-[#3ABEF9] font-semibold">
+              Project Repositories
+            </span>
+            .
           </p>
         </div>
 
