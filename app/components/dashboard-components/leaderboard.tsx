@@ -13,9 +13,9 @@ const names = [
   ["Ritesh Koushik", "IAmRiteshKoushik"],
   ["Amritha Nandini KL", "Amri-tah"],
   ["Saran Darshan", "SaranDharshanSP"],
-  ["Vishal The Human", "VishalTheHuman"],
+  ["Vishal The Human Vishal The Human", "VishalTheHuman"],
   ["Kiran Rajeev", "KiranRajeev-KV"],
-  ["Vijay SB", "vijaysb0613"],
+  ["Vijay S B", "vijaysb0613"],
 ];
 
 const shuffledNames = names.sort(() => 0.5 - Math.random());
@@ -101,7 +101,7 @@ const Leaderboard = () => {
     (a, b) => b.earnedBounties - a.earnedBounties
   );
   return (
-    <Card className="bg-transparent border-none p-6 relative min-h-screen rounded-none z-50">
+    <Card className="bg-transparent border-none p-6 relative rounded-none z-50 w-full max-h-screen overflow-y-auto">
       <Tabs defaultValue="leaderboard" className="w-full">
         <TabsList className="grid grid-cols-2 bg-[#1d1e3a] text-base text-white h-10 w-full">
           <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
@@ -109,18 +109,24 @@ const Leaderboard = () => {
         </TabsList>
 
         <TabsContent value="leaderboard">
-          <CardHeader className="font-bold text-6xl pt-4 pb-2 px-4 text-[#3abef9]">
+          <CardHeader className="font-bold text-4xl sm:text-6xl pt-4 pb-2 px-4 text-[#3abef9]">
             Leaderboard
           </CardHeader>
           <CardDescription className="px-4 pb-4 text-[#c8c7cc]">
             Leaderboard refreshes every 1 hour.
           </CardDescription>
 
-          <div className="flex bg-[#1d1b2e] mx-4 p-4 text-white font-semibold rounded-lg">
-            <div className="w-[10%] text-left">Rank</div>
-            <div className="w-[50%] text-left pl-16">Name</div>
-            <div className="w-[20%] text-center">PR Merged</div>
-            <div className="w-[20%] text-right">Bounties</div>
+          <div className="flex bg-[#1d1b2e] mx-2 p-4 text-white sm:font-semibold rounded-lg">
+            <div className="text-sm sm:text-base w-[10%] text-left">Rank</div>
+            <div className="text-sm sm:text-base w-[70%] text-left pl-16 sm:w-[50%]">
+              Name
+            </div>
+            <div className="text-sm sm:text-base w-[20%] text-center hidden sm:block">
+              PR Merged
+            </div>
+            <div className="text-sm sm:text-base w-[20%] text-right">
+              Bounties
+            </div>
           </div>
 
           <ScrollArea className="max-h-[75vh] overflow-auto relative">
