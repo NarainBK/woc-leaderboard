@@ -13,7 +13,7 @@ const names = [
   ["Ritesh Koushik", "IAmRiteshKoushik"],
   ["Amritha Nandini KL", "Amri-tah"],
   ["Saran Darshan", "SaranDharshanSP"],
-  ["Vishal The Human Vishal The Human", "VishalTheHuman"],
+  ["Vishal The Human", "VishalTheHuman"],
   ["Kiran Rajeev", "KiranRajeev-KV"],
   ["Vijay S B", "vijaysb0613"],
 ];
@@ -118,10 +118,10 @@ const Leaderboard = () => {
 
           <div className="flex bg-[#1d1b2e] mx-2 p-4 text-white sm:font-semibold rounded-lg">
             <div className="text-sm sm:text-base w-[10%] text-left">Rank</div>
-            <div className="text-sm sm:text-base w-[70%] text-left pl-16 sm:w-[50%]">
+            <div className="text-sm sm:text-base w-[70%] text-left pl-16">
               Name
             </div>
-            <div className="text-sm sm:text-base w-[20%] text-center hidden sm:block">
+            <div className="text-sm sm:text-base w-[20%] text-center hidden md:block">
               PR Merged
             </div>
             <div className="text-sm sm:text-base w-[20%] text-right">
@@ -129,7 +129,7 @@ const Leaderboard = () => {
             </div>
           </div>
 
-          <ScrollArea className="max-h-[75vh] overflow-auto relative">
+          <ScrollArea className="max-h-[75vh] overflow-y-auto overflow-x-auto relative">
             {rowcardsData.length === 0 ? (
               <div className="text-center text-2xl text-[#c8c7cc] p-4">
                 Can&apos;t show leaderboard stats

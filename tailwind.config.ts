@@ -84,6 +84,7 @@ export default {
         "min-800px": "800px",
         "min-900px": "900px",
         "min-1280px": "1280px",
+        "min-1680px": "1680px",
       },
     },
   },
