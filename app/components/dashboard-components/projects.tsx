@@ -9,7 +9,14 @@ const ProjectData = [
     projectUrl: "https://github.com/CSE-25/quick_start_express",
     blurb:
       "A simple CLI tool to generate Express servers from multiple available templates. ",
-    techstack: ["NodeJS", "javascript", "typescript"],
+    techstack: [
+      "NodeJS",
+      "javascript",
+      "typescript",
+      "postgresql",
+      "mongodb",
+      "mysql",
+    ],
     maintainer: ["Ashrockzzz2003", "Abhinav-ark"],
   },
   {
@@ -107,7 +114,15 @@ const ProjectData = [
     projectUrl: "https://github.com/amri-tah/LeetPath",
     blurb:
       "LeetPath is a personalized question recommendation system designed for LeetCode users. Using graph-based structures, topic modeling, and Markov Random Field, the system analyzes user interaction, question similarity, and topic relevance to suggest the most appropriate questions for continued skill improvement.",
-    techstack: ["NextJS", "Tailwind", "Firebase", "Flask", "Go", "MongoDB"],
+    techstack: [
+      "NextJS",
+      "Tailwind",
+      "Firebase",
+      "Flask",
+      "Go",
+      "MongoDB",
+      "graphql",
+    ],
     maintainer: ["amri-tah"],
   },
   {
