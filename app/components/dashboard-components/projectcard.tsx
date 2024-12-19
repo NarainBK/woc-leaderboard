@@ -31,13 +31,14 @@ const ProjectCard = (props: ProjectCardProps) => {
         </CardHeader>
 
         {/* Commented out for "Coming soon" */}
-        {/* <div className="flex space-x-1 px-4">
+        <div className="flex space-x-1 px-4">
           {props.techstack.map((tech, index) => (
             <div
               key={index}
               className="text-white text-xs pl-2 py-1 rounded-lg"
             >
               <Image
+                className="center"
                 key={index}
                 src={`/icons/${tech.toLowerCase()}.svg`}
                 alt={tech}
@@ -50,11 +51,11 @@ const ProjectCard = (props: ProjectCardProps) => {
 
         <CardDescription className="text-1xl px-6 text-gray-300">
           {props.blurb}
-        </CardDescription> */}
-
-        <CardDescription className="text-1xl px-6 text-gray-300">
-          Details coming soon 🎉
         </CardDescription>
+
+        {/* <CardDescription className="text-1xl px-6 text-gray-300">
+          Details coming soon 🎉
+        </CardDescription> */}
 
         {/* <div className="flex flex-row space-x-2 px-3 pt-4 items-center">
           <p className="text-base text-white px-3">Maintainers : </p>
