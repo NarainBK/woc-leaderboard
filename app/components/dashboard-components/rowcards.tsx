@@ -32,7 +32,7 @@ const Rowcards = (props: RowcardsProps) => {
             className="rounded-full w-10 h-10 sm:w-14 sm:h-14"
           />
           <div className="flex flex-col items-start pl-4">
-            <p className=" text-sm text-[#f2f2f3] sm:text-base md:text-lg lg:text-lg max-h-10 overflow-hidden text-ellipsis whitespace-pre max-w-[5rem] min-[400px]:max-w-[10rem] min-[480px]:max-w-[16rem] min-800px:max-w-[5rem] min-[900px]:max-w-[7rem] lg:max-w-[10rem] min-1280px:max-w-full">
+            <p className=" text-sm text-[#f2f2f3] sm:text-base md:text-lg lg:text-lg max-h-10 overflow-hidden text-ellipsis whitespace-pre max-w-[5rem] min-[400px]:max-w-[10rem] min-[480px]:max-w-[16rem] min-800px:max-w-[5rem] min-[900px]:max-w-[7rem] lg:max-w-[8rem] min-1280px:max-w-[250px] min-1680px:max-w-[400px]">
               {props.name}
             </p>
             <p className="text-sm text-gray-200 hidden md:block min-800px:text-xs min-900px:text-sm">
@@ -41,9 +41,9 @@ const Rowcards = (props: RowcardsProps) => {
           </div>
         </div>
 
-        <div className="w-[20%] hidden sm:flex">
+        <div className="w-[20%] hidden justify-center sm:flex">
           <GitPullRequest
-            className="bg-slate-600 rounded-full w-4 h-4 sm:w-6 sm:h-6"
+            className="bg-slate-600 rounded-full p-1"
             color="rgb(94 234 212)"
           />
           <p className="text-[#f2f2f3] font-semibold text-sm sm:text-base pl-2">

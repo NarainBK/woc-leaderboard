@@ -82,17 +82,6 @@ export const Home = () => {
           </div>
         </div>
 
-        {/* GitHub Image */}
-        <div className="flex items-center gap-4 mb-8">
-          <p className="text-white text-sm leading-relaxed">
-            Contribute to the event by visiting our{" "}
-            <span className="text-[#3ABEF9] font-semibold">
-              Project Repositories
-            </span>
-            .
-          </p>
-        </div>
-
         {/* Buttons Section */}
         <div className="mt-8 flex gap-4">
           {/* GitHub Sign In Button */}
