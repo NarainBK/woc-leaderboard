@@ -164,15 +164,6 @@ const ProjectData = [
     techstack: ["HTML", "CSS", "JavaScript"],
     maintainer: ["SaranDharshanSP"],
   },
-  {
-    name: "Amrita Sports Management System",
-    projectUrl:
-      "https://github.com/SaranDharshanSP/Amrita-Sports-Management-System",
-    blurb:
-      "This project is a House Points Management System for Amrita University. It provides a platform for both administrators and students to manage and view the points table of all the houses in the university. Administrators have the privilege to add, delete, and modify house points, while students can only view the points table.",
-    techstack: ["Java"],
-    maintainer: ["SaranDharshanSP"],
-  },
 ];
 
 const projects = () => {

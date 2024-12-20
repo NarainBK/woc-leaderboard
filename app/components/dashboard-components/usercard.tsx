@@ -4,9 +4,7 @@ import { Card, CardDescription } from "../ui/card";
 import { Spotlight } from "../ui/spotlight";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { useEffect, useState } from "react";
-import { LeaderBoardState } from "@/app/atoms/userAtom";
 import { useSession } from "next-auth/react";
-import { useRecoilState } from "recoil";
 interface UserCardProps {
   githubId: string;
   currentRank: string;
@@ -51,11 +49,10 @@ const UserCardData: UserCardProps = {
  * 2. GitHub username
  * 3. Bounty earned
  * 4. PRs merged
- * 5. Total issues 
+ * 5. Total issues
  * 6. Incomplete issues
  * 7. Ranking is to be derived from the leaderboard data recoil state
  */
-
 
 const getUserData = async (): Promise<UserCardProps | null> => {
   const { data: session } = useSession();
@@ -68,18 +65,18 @@ const getUserData = async (): Promise<UserCardProps | null> => {
       return null; // Return null if status is not 200
     }
     // Await the json method to get actual data
-    const data = await response.json(); 
+    const data = await response.json();
     return data; // Return the fetched data
   } catch (error) {
     console.log(error); // Log the error
     return null; // Return null if an error occurs
   }
-}
+};
 
 const UserCard = () => {
   // TODO: Bring in the recoil state which would contain all the necessary data
   const [loading, isLoading] = useState<boolean>(true);
-  const [UserData, setUserData] = useRecoilState(LeaderBoardState); 
+  const [UserData, setUserData] = useRecoilState(LeaderBoardState);
   useEffect(() => {
     (async () => {
       const result = await getUserData();
@@ -126,13 +123,13 @@ const UserCard = () => {
       <BackgroundGradient className="py-4">
         <Spotlight fill="blue" />
         <Card className="bg-[#050217] border-1 pb-6 relative rounded-xl shadow-lg mx-4">
-
           <div className="absolute top-[-60px] left-1/2 transform -translate-x-1/2">
-            <div className="text-8xl text-[#ffcc00] font-bold animate-glow">{UserCardData.currentRank}</div>
+            <div className="text-8xl text-[#ffcc00] font-bold animate-glow">
+              {UserCardData.currentRank}
+            </div>
           </div>
 
           <div className="flex justify-between items-center px-6 pt-8 space-x-6">
-
             <div className="flex-shrink-0">
               <Image
                 src={`https://github.com/${UserCardData.githubId}.png`}
@@ -143,41 +140,60 @@ const UserCard = () => {
               />
             </div>
 
-
             <div className="text-center">
-              <h2 className="text-3xl text-[#6ee7b7] font-semibold">{UserCardData.name}</h2>
-              <p className="text-lg text-right text-gray-300">@{UserCardData.githubId}</p>
+              <h2 className="text-3xl text-[#6ee7b7] font-semibold">
+                {UserCardData.name}
+              </h2>
+              <p className="text-lg text-right text-gray-300">
+                @{UserCardData.githubId}
+              </p>
             </div>
           </div>
 
-
           <div className="space-y-4 px-6 pt-6">
             <CardDescription className="text-xl text-gray-300">
-              🏆 <strong>{UserCardData.prMergedCount}</strong> pull requests successfully merged!
+              🏆 <strong>{UserCardData.prMergedCount}</strong> pull requests
+              successfully merged!
             </CardDescription>
 
             <CardDescription className="text-xl text-gray-300">
-              🎯 You&apos;ve earned a total of <strong>{UserCardData.totalBountyPoints}</strong> bounty points from <strong>{UserCardData.completedBounties}</strong> completed bounties.
+              🎯 You&apos;ve earned a total of{" "}
+              <strong>{UserCardData.totalBountyPoints}</strong> bounty points
+              from <strong>{UserCardData.completedBounties}</strong> completed
+              bounties.
             </CardDescription>
 
             <CardDescription className="text-xl text-gray-300">
-              🔥 You have contributed to <strong>{UserCardData.activeBountyProjects?.length || 0}</strong> active projects:
+              🔥 You have contributed to{" "}
+              <strong>{UserCardData.activeBountyProjects?.length || 0}</strong>{" "}
+              active projects:
             </CardDescription>
           </div>
 
-
           <div className="px-6 space-y-4 py-4">
-            {UserCardData.activeBountyProjects && UserCardData.activeBountyProjects.length > 0 ? (
+            {UserCardData.activeBountyProjects &&
+            UserCardData.activeBountyProjects.length > 0 ? (
               UserCardData.activeBountyProjects.map((project) => (
-                <div key={project.issueNumber} className="bg-[#1d1b2e] p-4 rounded-lg">
-                  <h4 className="text-lg text-[#6ee7b7] font-semibold">{project.projectTitle}</h4>
-                  <p className="text-sm text-gray-400">Issue #{project.issueNumber}</p>
-                  <p className="text-sm text-gray-400">💰 {project.bountyPoints} Bounty Points</p>
+                <div
+                  key={project.issueNumber}
+                  className="bg-[#1d1b2e] p-4 rounded-lg"
+                >
+                  <h4 className="text-lg text-[#6ee7b7] font-semibold">
+                    {project.projectTitle}
+                  </h4>
+                  <p className="text-sm text-gray-400">
+                    Issue #{project.issueNumber}
+                  </p>
+                  <p className="text-sm text-gray-400">
+                    💰 {project.bountyPoints} Bounty Points
+                  </p>
                 </div>
               ))
             ) : (
               <div className="bg-[#1d1b2e] p-4 rounded-lg">
-                <p className="text-sm text-gray-400">You have no active bounty projects at the moment.</p>
+                <p className="text-sm text-gray-400">
+                  You have no active bounty projects at the moment.
+                </p>
               </div>
             )}
           </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import ClientSessionWrapper from "./components/ClientSessionWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,10 +29,11 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="fallbackImage.jpg" type="image/jpeg" />
       </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ClientSessionWrapper>{children}</ClientSessionWrapper>
       </body>
     </html>
   );

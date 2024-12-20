@@ -21,7 +21,7 @@ export const NEXT_AUTH: NextAuthOptions = {
         const check = await prisma.participant.findFirst({
           where: {
             username: username
-          }
+          },
         });
         // Account does not exist or banned account
         if (!check || check.accountActive === false) {
@@ -35,8 +35,8 @@ export const NEXT_AUTH: NextAuthOptions = {
     },
     async session({ session }) {
       return session;
-    }
-  }
-}
+    },
+  },
+};
 
 // TODO: Add Rate Limit to the login endpoint
