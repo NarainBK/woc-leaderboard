@@ -4,7 +4,9 @@ import { Card, CardDescription } from "../ui/card";
 import { Spotlight } from "../ui/spotlight";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { useEffect, useState } from "react";
-
+import { LeaderBoardState } from "@/app/atoms/userAtom";
+import { useSession } from "next-auth/react";
+import { useRecoilState } from "recoil";
 interface UserCardProps {
   githubId: string;
   currentRank: string;
@@ -55,33 +57,35 @@ const UserCardData: UserCardProps = {
  */
 
 
-const getUserData = async (): Promise<boolean> => {
-  // TODO: Derive username from session data through useSession hook
-  const username = "IAmRiteshKoushik";
+const getUserData = async (): Promise<UserCardProps | null> => {
+  const { data: session } = useSession();
+  const UserName = session?.user?.name ?? "defaultUsername"; // Derive username from session data
   try {
-    const response = await fetch(`api/user?username=${username}`, {
+    const response = await fetch(`/api/user?username=${UserName}`, {
       method: "GET",
-
     });
     if (response.status !== 200) {
-      return false;
+      return null; // Return null if status is not 200
     }
-    // Deserializing the JSON data to object only if status is 200
-    const data = response.json();
-    // TODO: Populate the recoil state
-    return true;
+    // Await the json method to get actual data
+    const data = await response.json(); 
+    return data; // Return the fetched data
   } catch (error) {
-    console.log(error);
-    return false;
+    console.log(error); // Log the error
+    return null; // Return null if an error occurs
   }
 }
 
 const UserCard = () => {
   // TODO: Bring in the recoil state which would contain all the necessary data
   const [loading, isLoading] = useState<boolean>(true);
+  const [UserData, setUserData] = useRecoilState(LeaderBoardState); 
   useEffect(() => {
     (async () => {
       const result = await getUserData();
+      if (result) {
+        setUserData(result); // Update Recoil state with the fetched data
+      }
       if (result !== true) {
         isLoading(true);
         return;
