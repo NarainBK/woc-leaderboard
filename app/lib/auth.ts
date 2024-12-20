@@ -11,6 +11,7 @@ export const NEXT_AUTH = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ profile }: any) {
+      // @eslint-disable-next-line @typescript-eslint/no-explicit-any
       const username = profile.login;
       try {
         const check = await prisma.participant.findFirst({
@@ -28,6 +29,7 @@ export const NEXT_AUTH = {
         return false;
       }
     },
+    // @eslint-disable-next-line @typescript-eslint/no-explicit-any
     async session({ session, token }: any) {
       if (session && session.user) {
         session.user.id = token.sub;
