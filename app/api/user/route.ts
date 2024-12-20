@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { z } from "zod";
 import { NextRequest, NextResponse } from "next/server";
 
-export default async function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   const session = await getServerSession(NEXT_AUTH);
 
   if (!session) {
