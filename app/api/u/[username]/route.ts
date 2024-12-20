@@ -58,12 +58,13 @@ export default async function GET() {
       const issues = await tx.issue.findMany({
         where: {
           claimedBy: user.username,
-          issueStatus: true,
         },
         select: {
+          issueStatus: true,
           url: true
         }
       });
+      const issueCount: number = issues.filter(i => i.issueStatus === false).length;
 
       return NextResponse.json(
         {
@@ -71,7 +72,7 @@ export default async function GET() {
           rollNumber: user.rollNumber,
           username: user.username,
           issues: issues,
-          issueCount: issues.length,
+          issueCount: issueCount,
           bounty: user.bounty
         },
         {
