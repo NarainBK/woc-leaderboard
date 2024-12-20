@@ -111,7 +111,7 @@ const getLeaderboardData = async (): Promise<boolean> => {
       return false;
     }
 
-    // Converting the JSON data to object only if status is alright
+    // Deserializing the JSON data to object only if status is 200
     const data = await request.json();
     // TODO: Add the data in the appropriate recoil state
     return true;
@@ -130,10 +130,12 @@ const Leaderboard = () => {
       const result = await getLeaderboardData();
       if (result !== true) {
         isLoading(true);
+        return;
       }
       isLoading(false);
+      return;
     })();
-  }, [])
+  }, []);
 
   // TODO: Remove the dummy data
   const sortedData = [...rowcardsData].sort(

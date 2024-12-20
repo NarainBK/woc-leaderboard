@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Card, CardDescription } from "../ui/card";
 import { Spotlight } from "../ui/spotlight";
 import { BackgroundGradient } from "../ui/background-gradient";
+import { useEffect, useState } from "react";
 
 interface UserCardProps {
   githubId: string;
@@ -14,13 +15,15 @@ interface UserCardProps {
   name: string;
 }
 
+// TODO: This is not needed
 interface ActiveBountyProject {
   projectTitle: string;
   issueNumber: number;
   bountyPoints: number;
 }
 
-const UserCardData:UserCardProps = {
+// TODO: Turn this into a recoil state
+const UserCardData: UserCardProps = {
   name: "Ritesh Koushik",
   githubId: "IAmRiteshKoushik",
   currentRank: "0",
@@ -41,7 +44,53 @@ const UserCardData:UserCardProps = {
   ],
 };
 
+/* Incoming Data will have the following:
+ * 1. Full name
+ * 2. GitHub username
+ * 3. Bounty earned
+ * 4. PRs merged
+ * 5. Total issues 
+ * 6. Incomplete issues
+ * 7. Ranking is to be derived from the leaderboard data recoil state
+ */
+
+
+const getUserData = async (): Promise<boolean> => {
+  // TODO: Derive username from session data through useSession hook
+  const username = "IAmRiteshKoushik";
+  try {
+    const response = await fetch(`api/user?username=${username}`, {
+      method: "GET",
+
+    });
+    if (response.status !== 200) {
+      return false;
+    }
+    // Deserializing the JSON data to object only if status is 200
+    const data = response.json();
+    // TODO: Populate the recoil state
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 const UserCard = () => {
+  // TODO: Bring in the recoil state which would contain all the necessary data
+  const [loading, isLoading] = useState<boolean>(true);
+  useEffect(() => {
+    (async () => {
+      const result = await getUserData();
+      if (result !== true) {
+        isLoading(true);
+        return;
+      }
+      isLoading(false);
+      return;
+    })();
+  });
+
   const isDataValid =
     UserCardData &&
     UserCardData.githubId &&
@@ -58,7 +107,7 @@ const UserCard = () => {
           <Card className="bg-[#050217] border-1 pb-6 relative rounded-xl shadow-lg mx-4">
             <div className="px-6 pt-6 text-center text-gray-300">
               <h2 className="text-2xl text-[#c8c7cc] font-semibold">
-                Can fetch user data currently.
+                Can't fetch user data currently.
               </h2>
               <p>Please check back later or contact support.</p>
             </div>
