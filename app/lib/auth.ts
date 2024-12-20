@@ -11,7 +11,8 @@ export const NEXT_AUTH: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async signIn({ profile }: any) {
+    async signIn({ profile }) {
+      // @ts-ignore
       const username: string = profile.login;
       try {
         const check = await prisma.participant.findFirst({
