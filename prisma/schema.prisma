@@ -43,15 +43,16 @@ model Project {
   title                  String
   MaintainersForProjects MaintainersForProjects[]
   solution               Solution[]
+  Issue                  Issue[]
 }
 
-// model Issue {
-//  issueId   String @id
-//  repoId    String
-//  claimedBy String
-//
-//  project Project @relation(fields: [repoId], references: [repoId])
-//}
+model Issue {
+  issueId   String @id
+  repoId    String
+  claimedBy String
+
+  project Project @relation(fields: [repoId], references: [repoId])
+}
 
 model Solution {
   id                String         @id
