@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Projects from "./projects";
 import Rowcards from "./rowcards";
 import { ScrollArea } from "@/app/components/ui/scroll-area";
+import { useEffect, useState } from "react";
 
 const names = [
   ["Ashwin Narayanan S", "Ashrockzzz2003"],
@@ -96,10 +97,49 @@ const rowcardsData = [
   },
 ];
 
+const getLeaderboardData = async (): Promise<boolean> => {
+  try {
+    const request = await fetch("/api/leaderboard", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+    if (request.status !== 200) {
+      // TODO: Something has gone wrong handle it
+      console.log(request.status);
+      return false;
+    }
+
+    // Converting the JSON data to object only if status is alright
+    const data = await request.json();
+    // TODO: Add the data in the appropriate recoil state
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 const Leaderboard = () => {
+  // TODO: Create a fallback when the data is loading. Mention something like, 
+  // we are not able to fetch the data at the moment. Bas
+  const [loading, isLoading] = useState<boolean>(true);
+  useEffect(() => {
+    (async () => {
+      const result = await getLeaderboardData();
+      if (result !== true) {
+        isLoading(true);
+      }
+      isLoading(false);
+    })();
+  }, [])
+
+  // TODO: Remove the dummy data
   const sortedData = [...rowcardsData].sort(
     (a, b) => b.earnedBounties - a.earnedBounties
   );
+
   return (
     <Card className="bg-transparent border-none p-6 relative rounded-none z-50 w-full max-h-screen overflow-y-auto">
       <Tabs defaultValue="leaderboard" className="w-full">
