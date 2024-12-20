@@ -2,35 +2,26 @@ import prisma from "@/app/db";
 import { NEXT_AUTH } from "@/app/lib/auth";
 import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { useRouter } from "next/router";
-import { NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 
-export default async function GET() {
+export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(NEXT_AUTH);
 
   if (!session) {
-    return NextResponse.json(
+    return res.status(403).json(
       {
         message: "Unauthorized access! Not logged in."
       },
-      {
-        status: 403,
-      }
     );
   }
 
-  // Validate params
-  const router = useRouter();
-  const username = router.query;
+  const { query: { username } } = req;
   const validUsername = z.string().regex(/^[a-zA-Z0-9-]+$/).safeParse(username);
   if (!validUsername.success) {
-    return NextResponse.json(
+    return res.status(400).json(
       {
         message: "Bad Request,"
-      },
-      {
-        status: 400,
       },
     );
   }
@@ -44,13 +35,10 @@ export default async function GET() {
         }
       });
       if (!user) {
-        return NextResponse.json(
+        return res.status(404).json(
           {
             message: "Account does not exist"
           },
-          {
-            status: 404,
-          }
         );
       }
 
@@ -66,7 +54,7 @@ export default async function GET() {
       });
       const issueCount: number = issues.filter(i => i.issueStatus === false).length;
 
-      return NextResponse.json(
+      return res.status(200).json(
         {
           fullname: user.fullName,
           rollNumber: user.rollNumber,
@@ -75,19 +63,13 @@ export default async function GET() {
           issueCount: issueCount,
           bounty: user.bounty
         },
-        {
-          status: 200
-        }
       );
     });
   } catch (error) {
-    return NextResponse.json(
+    return res.status(500).json(
       {
         message: "Internal Server Error",
       },
-      {
-        status: 500,
-      }
     );
   }
 }
