@@ -14,12 +14,13 @@ datasource db {
 }
 
 model Participant {
-  fullName     String
-  rollNumber   String     @unique
-  mobileNumber String     @unique
-  githubURL    String     @unique
-  bounty       Int        @default(0)
-  Solution     Solution[]
+  fullName      String
+  rollNumber    String     @unique
+  mobileNumber  String     @unique
+  username      String     @unique
+  bounty        Int        @default(0)
+  accountActive Boolean    @default(true)
+  Solution      Solution[]
 }
 
 model Maintainer {
@@ -47,20 +48,22 @@ model Project {
 }
 
 model Issue {
-  issueId   String @id
-  repoId    String
-  claimedBy String
+  issueId     String  @id
+  repoId      String
+  url         String
+  claimedBy   String
+  issueStatus Boolean @default(true)
 
   project Project @relation(fields: [repoId], references: [repoId])
 }
 
 model Solution {
-  id                String         @id
-  repoId            String
-  participantGitHub String
-  status            SolutionStatus @default(Open)
+  id       String         @id
+  repoId   String
+  username String
+  status   SolutionStatus @default(Open)
 
-  participant Participant @relation(fields: [participantGitHub], references: [githubURL])
+  participant Participant @relation(fields: [username], references: [username])
   project     Project     @relation(fields: [repoId], references: [repoId])
 }
 
