@@ -1,7 +1,7 @@
 import prisma from "@/app/db";
 import { NextResponse } from "next/server";
 
-export default async function GET() {
+export async function GET() {
   // Fetch all participants from the leaderboard based on bounty and return 
   try {
     const data = await prisma.participant.findMany({
