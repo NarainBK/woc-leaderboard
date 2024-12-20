@@ -41,6 +41,7 @@ model MaintainersForProjects {
 
 model Project {
   repoId                 String                   @id
+  webhook                String                   @unique
   title                  String
   MaintainersForProjects MaintainersForProjects[]
   solution               Solution[]
