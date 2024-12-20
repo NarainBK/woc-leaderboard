@@ -46,7 +46,7 @@ const UserCardData: UserCardProps = {
  * 6. Incomplete issues
  * 7. Ranking is to be derived from the leaderboard data recoil state
  */
-const STORAGE_KEY = "userCardData";
+export const STORAGE_KEY = "userCardData";
 
 
 const getUserData = async (): Promise<boolean> => {
