@@ -1,7 +1,7 @@
 import prisma from "@/app/db";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 
-export default async function GET(_req: NextApiRequest, res: NextApiResponse) {
+export default async function GET() {
   // Fetch all participants from the leaderboard based on bounty and return 
   try {
     const data = await prisma.participant.findMany({
@@ -16,17 +16,23 @@ export default async function GET(_req: NextApiRequest, res: NextApiResponse) {
         bounty: 'desc',
       },
     });
-    return res.status(200).json(
+    return NextResponse.json(
       {
         leaderboard: data
       },
+      {
+        status: 200,
+      }
     );
   } catch (error) {
     console.log(error);
-    return res.status(500).json(
+    return NextResponse.json(
       {
         message: "Internal Server Error"
       },
+      {
+        status: 500
+      }
     )
   }
 }

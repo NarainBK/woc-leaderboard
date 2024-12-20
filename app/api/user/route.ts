@@ -2,27 +2,45 @@ import prisma from "@/app/db";
 import { NEXT_AUTH } from "@/app/lib/auth";
 import { Prisma } from "@prisma/client";
 import { getServerSession } from "next-auth";
-import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function GET(req: NextApiRequest, res: NextApiResponse) {
+export default async function GET(request: NextRequest) {
   const session = await getServerSession(NEXT_AUTH);
 
   if (!session) {
-    return res.status(403).json(
+    return NextResponse.json(
       {
         message: "Unauthorized access! Not logged in."
       },
+      {
+        status: 403
+      }
     );
   }
 
-  const { query: { username } } = req;
+  // Validating username
+  const url = request.nextUrl;
+  const username = url.searchParams.get('username');
+  if (!username) {
+    return NextResponse.json(
+      {
+        message: "Bad Request."
+      },
+      {
+        status: 400
+      }
+    );
+  }
   const validUsername = z.string().regex(/^[a-zA-Z0-9-]+$/).safeParse(username);
   if (!validUsername.success) {
-    return res.status(400).json(
+    return NextResponse.json(
       {
-        message: "Bad Request,"
+        message: "Bad Request."
       },
+      {
+        status: 400
+      }
     );
   }
 
@@ -35,10 +53,13 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
         }
       });
       if (!user) {
-        return res.status(404).json(
+        return NextResponse.json(
           {
             message: "Account does not exist"
           },
+          {
+            status: 404
+          }
         );
       }
 
@@ -54,7 +75,7 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
       });
       const issueCount: number = issues.filter(i => i.issueStatus === false).length;
 
-      return res.status(200).json(
+      return NextResponse.json(
         {
           fullname: user.fullName,
           rollNumber: user.rollNumber,
@@ -63,14 +84,20 @@ export default async function GET(req: NextApiRequest, res: NextApiResponse) {
           issueCount: issueCount,
           bounty: user.bounty
         },
+        {
+          status: 200
+        }
       );
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json(
+    return NextResponse.json(
       {
         message: "Internal Server Error",
       },
+      {
+        status: 500
+      }
     );
   }
 }
