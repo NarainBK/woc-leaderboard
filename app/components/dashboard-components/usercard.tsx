@@ -6,6 +6,9 @@ import { BackgroundGradient } from "../ui/background-gradient";
 import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 
+export const STORAGE_KEY = "leaderboardData";
+
+
 interface UserCardProps {
   fullname: string;
   rollNumber: string;
@@ -14,8 +17,23 @@ interface UserCardProps {
   issueCount: number;
   bounty: number;
 }
+const getRankFromStorage = (): number | null => {
+  try {
+    console.log("Retrieving rank from storage...");
+    const storedData = secureLocalStorage.getItem(STORAGE_KEY);
+    console.log("Stored data:", storedData);
+    const parsedData = storedData ? JSON.parse(storedData as string) : null;
 
-export const STORAGE_KEY = "leaderboardData";
+    if (parsedData && parsedData.rank !== undefined) {
+      return parsedData.rank;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error parsing stored rank data:", error);
+    return null;
+  }
+};
+
 
 const getUserData = async (): Promise<boolean> => {
   const username = "vijaysb0613";
@@ -28,13 +46,19 @@ const getUserData = async (): Promise<boolean> => {
     }
     const data = await response.json();
     console.log("Fetched data:", data);
-    secureLocalStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+    // Add the rank field here
+    // const rank = 1;  // This is just a placeholder; assign the actual rank based on your logic.
+    // data.rank = rank;
+
+    // secureLocalStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     return true;
   } catch (error) {
     console.error("Error fetching user data:", error);
     return false;
   }
 };
+
 
 const getLeaderboardFromStorage = (): UserCardProps | null => {
   try {
@@ -51,7 +75,7 @@ const getLeaderboardFromStorage = (): UserCardProps | null => {
 const UserCard = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserCardProps | null>(null);
-
+  const [rank,setRank] = useState<number | null>();
   useEffect(() => {
     (async () => {
       try {
@@ -59,7 +83,12 @@ const UserCard = () => {
         const isUserDataFetched = await getUserData();
         const userDataFromStorage = getLeaderboardFromStorage();
         console.log("Fetched user data from storage:", userDataFromStorage);
-
+  
+        // Log the rank from local storage
+        const rank = getRankFromStorage();
+        setRank(rank)
+        console.log("User's rank from local storage:", rank);
+  
         if (isUserDataFetched && userDataFromStorage) {
           console.log("Setting user data:", userDataFromStorage);
           setUserData(userDataFromStorage);
@@ -116,6 +145,9 @@ const UserCard = () => {
       <BackgroundGradient className="py-4">
         <Spotlight fill="blue" />
         <Card className="bg-[#050217] border-1 pb-6 relative rounded-xl shadow-lg mx-4">
+        <div className="absolute top-[-60px] left-1/2 transform -translate-x-1/2">
+            <div className="text-8xl text-[#ffcc00] font-bold animate-glow">{rank}</div>
+          </div>
           <div className="flex justify-between items-center px-6 pt-8 space-x-6">
             <div className="flex-shrink-0">
               <Image

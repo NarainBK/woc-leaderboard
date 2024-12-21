@@ -51,7 +51,9 @@ export const Home = () => {
         </p>
 
         <div className="mb-8 text-lg font-semibold">
+        <p className="mb-2 text-sm font-light">Winter of Code ends in</p>
           <div className="flex items-center gap-4 text-center">
+            
             <div className="flex flex-col items-center justify-center bg-[#3ABEF9] text-[#070F2B] w-12 h-12 sm:w-16 sm:h-16 rounded-lg shadow-md">
               <span className="text-xl sm:text-3xl font-bold">
                 {timeLeft.days}
