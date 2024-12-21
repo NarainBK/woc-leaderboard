@@ -5,9 +5,9 @@ import { Spotlight } from "../ui/spotlight";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
+import useLeaderboardStore from "@/app/useLeaderboardStore";
 
 export const STORAGE_KEY = "leaderboardData";
-
 
 interface UserCardProps {
   fullname: string;
@@ -34,64 +34,66 @@ const getRankFromStorage = (): number | null => {
   }
 };
 
-
-const getUserData = async (): Promise<boolean> => {
-  const username = "vijaysb0613";
-  try {
-    console.log("Fetching user data...");
-    const response = await fetch(`api/user?username=${username}`, { method: "GET" });
-    console.log("Response status:", response.status);
-    if (response.status !== 200) {
-      return false;
-    }
-    const data = await response.json();
-    console.log("Fetched data:", data);
-
-    // Add the rank field here
-    // const rank = 1;  // This is just a placeholder; assign the actual rank based on your logic.
-    // data.rank = rank;
-
-    // secureLocalStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    return true;
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    return false;
-  }
-};
-
-
-const getLeaderboardFromStorage = (): UserCardProps | null => {
-  try {
-    console.log("Retrieving user data from storage...");
-    const storedData = secureLocalStorage.getItem(STORAGE_KEY);
-    console.log("Stored data:", storedData);
-    return storedData ? (JSON.parse(storedData as string) as UserCardProps) : null;
-  } catch (error) {
-    console.error("Error parsing stored user data:", error);
-    return null;
-  }
-};
+// const getLeaderboardFromStorage = (): UserCardProps | null => {
+//   try {
+//     console.log("Retrieving user data from storage...");
+//     const storedData = secureLocalStorage.getItem(STORAGE_KEY);
+//     console.log("Stored data:", storedData);
+//     return storedData ? (JSON.parse(storedData as string) as UserCardProps) : null;
+//   } catch (error) {
+//     console.error("Error parsing stored user data:", error);
+//     return null;
+//   }
+// };
 
 const UserCard = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserCardProps | null>(null);
-  const [rank,setRank] = useState<number | null>();
+  const [rank, setRank] = useState<number | null>();
+
+  const getUserData = async () => {
+    const username = "vijaysb0613";
+    try {
+      console.log("Fetching user data...");
+      const response = await fetch(`api/user?username=${username}`, {
+        method: "GET",
+      });
+      console.log("Response status:", response.status);
+      if (response.status !== 200) {
+        console.error("Failed to fetch data. Status code:", response.status);
+        return false;
+      }
+      const data = await response.json();
+      // const UserName=data.username
+      setUserData(data);
+      console.log("Fetched data:", data);
+      // secureLocalStorage.setItem("username",UserName)
+      return true;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
         console.log("Initializing data fetching...");
-        const isUserDataFetched = await getUserData();
-        const userDataFromStorage = getLeaderboardFromStorage();
-        console.log("Fetched user data from storage:", userDataFromStorage);
-  
+        getUserData();
+        console.log("Fetched user data from storage:", userData);
+
         // Log the rank from local storage
-        const rank = getRankFromStorage();
-        setRank(rank)
+        
+
+        console.log("setting rank");
+        console.log(rank)
+        // setRank(parseInt(rank as string));
+        // setTimeout(()=> {},1000);
         console.log("User's rank from local storage:", rank);
-  
-        if (isUserDataFetched && userDataFromStorage) {
-          console.log("Setting user data:", userDataFromStorage);
-          setUserData(userDataFromStorage);
+
+        if (userData) {
+          console.log("Setting user data:", userData);
+          setUserData(userData);
         } else {
           console.log("Failed to fetch data or user data is empty.");
         }
@@ -102,7 +104,6 @@ const UserCard = () => {
       }
     })();
   }, []);
-
 
   if (loading) {
     return (
@@ -128,9 +129,9 @@ const UserCard = () => {
           <Card className="bg-[#050217] border-1 pb-6 relative rounded-xl shadow-lg mx-4">
             <div className="px-6 pt-6 text-center text-gray-300">
               <h2 className="text-2xl text-[#c8c7cc] font-semibold">
-                Can't fetch user data currently.
+                Fetching Your Data
               </h2>
-              <p>Please check back later or contact support.</p>
+              <p>Please wait for a while 😊</p>
             </div>
           </Card>
         </BackgroundGradient>
@@ -145,8 +146,10 @@ const UserCard = () => {
       <BackgroundGradient className="py-4">
         <Spotlight fill="blue" />
         <Card className="bg-[#050217] border-1 pb-6 relative rounded-xl shadow-lg mx-4">
-        <div className="absolute top-[-60px] left-1/2 transform -translate-x-1/2">
-            <div className="text-8xl text-[#ffcc00] font-bold animate-glow">{rank}</div>
+          <div className="absolute top-[-60px] left-1/2 transform -translate-x-1/2">
+            <div className="text-8xl text-[#ffcc00] font-bold animate-glow">
+             {useLeaderboardStore.getState().getRank(userData.username)}
+            </div>
           </div>
           <div className="flex justify-between items-center px-6 pt-8 space-x-6">
             <div className="flex-shrink-0">
@@ -156,7 +159,9 @@ const UserCard = () => {
                 width={128}
                 height={128}
                 className="rounded-lg border-2"
-                onError={() => console.error("Error loading GitHub profile image.")}
+                onError={() =>
+                  console.error("Error loading GitHub profile image.")
+                }
               />
             </div>
 
@@ -164,8 +169,12 @@ const UserCard = () => {
               <h2 className="text-3xl text-[#6ee7b7] font-semibold">
                 {userData.fullname}
               </h2>
-              <p className="text-lg text-right text-gray-300">@{userData.username}</p>
-              <p className="text-gray-400 text-sm">Roll No: {userData.rollNumber}</p>
+              <p className="text-lg text-center text-gray-300">
+                @{userData.username}
+              </p>
+              <p className="text-gray-400 text-sm">
+                Roll No: {userData.rollNumber}
+              </p>
             </div>
           </div>
 
@@ -208,3 +217,4 @@ const UserCard = () => {
 };
 
 export default UserCard;
+

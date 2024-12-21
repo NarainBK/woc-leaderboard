@@ -2,6 +2,12 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Github } from "lucide-react";
+import { signIn } from "next-auth/react";
+
+const handleSignIn = async () => {
+  // Trigger the GitHub sign-in process
+  await signIn("github");
+};
 
 export const Home = () => {
   const [timeLeft, setTimeLeft] = useState<{
@@ -11,9 +17,8 @@ export const Home = () => {
     seconds: number;
   }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-  // Update the countdown timer
   useEffect(() => {
-    const targetDate = new Date("2025-02-14T00:00:00"); // Replace with your event date
+    const targetDate = new Date("2025-02-14T00:00:00");
 
     const calculateTimeLeft = () => {
       const now = new Date();
@@ -51,9 +56,8 @@ export const Home = () => {
         </p>
 
         <div className="mb-8 text-lg font-semibold">
-        <p className="mb-2 text-sm font-light">Winter of Code ends in</p>
+          <p className=" mb-2 text-sm font-light">Winter Of Code ends in</p>
           <div className="flex items-center gap-4 text-center">
-            
             <div className="flex flex-col items-center justify-center bg-[#3ABEF9] text-[#070F2B] w-12 h-12 sm:w-16 sm:h-16 rounded-lg shadow-md">
               <span className="text-xl sm:text-3xl font-bold">
                 {timeLeft.days}
@@ -88,11 +92,12 @@ export const Home = () => {
         <div className="mt-8 flex gap-4">
           {/* GitHub Sign In Button */}
           <button
+            onClick={handleSignIn}
             className="px-4 py-2 sm:px-8 sm:py-3 bg-gray-800 border border-gray-400 text-white
-            text-[#00000] font-semibold text-sm sm:text-lg rounded-lg
-            hover:bg-[#3ABEF9] hover:text-[#E3E8F1] transition duration-300 ease-in-out 
-            transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#3ABEF9] flex
-             items-center justify-center gap-2 sm:gap-3"
+              text-[#00000] font-semibold text-sm sm:text-lg rounded-lg
+              hover:bg-[#3ABEF9] hover:text-[#E3E8F1] transition duration-300 ease-in-out 
+              transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#3ABEF9] flex
+              items-center justify-center gap-2 sm:gap-3"
           >
             <Github size={20} /> {/* GitHub Icon */}
             Log in with GitHub
@@ -114,8 +119,6 @@ export const Home = () => {
           </a>
         </div>
       </div>
-
-      {/* Snowflake Images with Fixed Position */}
       <div
         className="absolute z-0 animate-rotateSnowflake"
         style={{
@@ -187,15 +190,16 @@ export const Home = () => {
 
       {/* Snow Background */}
       {/* <Image
-        src="/snowbg.png"
-        alt="Snow Floor"
-        layout="fill"
-        objectFit="cover"
-        priority
-        className="object-contain md:visible absolute bottom-0 left-0 w-full h-[150px] opacity-80"
-      /> */}
+          src="/snowbg.png"
+          alt="Snow Floor"
+          layout="fill"
+          objectFit="cover"
+          priority
+          className="object-contain md:visible absolute bottom-0 left-0 w-full h-[150px] opacity-80"
+        /> */}
     </div>
   );
 };
 
 export default Home;
+

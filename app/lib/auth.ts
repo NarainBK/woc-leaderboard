@@ -1,6 +1,7 @@
 import Github from "next-auth/providers/github";
 import prisma from "../db";
 import { NextAuthOptions } from "next-auth";
+import { Prisma } from "@prisma/client";
 
 export const NEXT_AUTH: NextAuthOptions = {
   providers: [
@@ -18,25 +19,57 @@ export const NEXT_AUTH: NextAuthOptions = {
       // @ts-expect-error unknown-type
       const username = profile.login;
       try {
-        const check = await prisma.participant.findFirst({
-          where: {
-            username: username
+        await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+          const user = await tx.participant.findFirst({
+            where: {
+              username: username
+            },
+          });
+
+          // Account does not exist or banned account
+          if (!user || user.accountActive === false) {
+            return false;
+          }
+
+          // Add provider ID
+          if (!user.providerId) {
+            await tx.participant.update({
+              data: {
+                // @ts-expect-error unknown-type
+                providerId: profile.id.toString(),
+              },
+              where: {
+                username: username
+              }
+            });
           }
         });
-        // Account does not exist or banned account
-        if (!check || check.accountActive === false) {
-          return false;
-        }
         return true;
       } catch (error) {
         console.log(error);
         return false;
       }
     },
-    async session({ session }) {
+    async session({ session, token }) {
+      if (session && session.user) {
+        try {
+          const user = await prisma.participant.findFirst({
+            select: {
+              username: true,
+            },
+            where: {
+              providerId: token.sub
+            }
+          });
+          session.user.name = user!.username;
+          return session;
+        } catch (error) {
+          return session;
+        }
+      }
       return session;
-    }
-  }
-}
+    },
+  },
+};
 
 // TODO: Add Rate Limit to the login endpoint
