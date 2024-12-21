@@ -18,6 +18,7 @@ model Participant {
   rollNumber    String     @unique
   mobileNumber  String     @unique
   username      String     @id
+  providerId    String?
   bounty        Int?       @default(0)
   accountActive Boolean?   @default(true)
   Solution      Solution[]
