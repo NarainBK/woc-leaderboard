@@ -45,16 +45,10 @@ model Solution {
   id       String         @id
   repoId   String
   username String
-  status   SolutionStatus @default(Open)
+  url      String
 
   participant Participant @relation(fields: [username], references: [username])
   project     Project     @relation(fields: [repoId], references: [repoId])
-}
-
-enum SolutionStatus {
-  Open
-  Closed
-  Merged
 }
 
 model BountyLog {
