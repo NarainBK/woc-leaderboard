@@ -9,8 +9,8 @@ import Snowfall from "./components/dashboard-components/Snowfall";
 import Home from "./components/dashboard-components/Home";
 import { useSession } from "next-auth/react";
 
-const dashboard = () => {
-  const { data: session, status } = useSession();
+const Dashboard = () => {
+  const { data: session,} = useSession();
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -47,4 +47,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

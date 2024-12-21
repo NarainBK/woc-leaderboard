@@ -8,17 +8,17 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   const session = await getServerSession(NEXT_AUTH);
 
-  // Uncomment if authentication is required
-  // if (!session) {
-  //   return NextResponse.json(
-  //     {
-  //       error: "Unauthorized access! Not logged in."
-  //     },
-  //     {
-  //       status: 403
-  //     }
-  //   );
-  // }
+  
+  if (!session) {
+    return NextResponse.json(
+      {
+        error: "Unauthorized access! Not logged in."
+      },
+      {
+        status: 403
+      }
+    );
+  }
 
   // Validating username
   const url = request.nextUrl;
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   if (!username) {
     return NextResponse.json(
       {
-        error: "Bad Request. Missing 'username' parameter."
+        error: "Bad Request"
       },
       {
         status: 400
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
   if (!validUsername.success) {
     return NextResponse.json(
       {
-        error: "Bad Request. Invalid 'username' format."
+        error: "Bad Request"
       },
       {
         status: 400
@@ -83,9 +83,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
-    console.error("Error in transaction:", error);
+    console.error(error);
 
-    // Return error message as JSON
     return NextResponse.json(
       {
         error: error instanceof Error ? error.message : "Internal Server Error"

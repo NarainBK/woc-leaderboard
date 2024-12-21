@@ -63,7 +63,9 @@ export const NEXT_AUTH: NextAuthOptions = {
           });
           session.user.name = user!.username;
           return session;
-        } catch (error) {
+        } catch (error) 
+        {
+          console.log(error)
           return session;
         }
       }

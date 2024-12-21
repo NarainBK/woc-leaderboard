@@ -4,11 +4,8 @@ import { Card, CardDescription } from "../ui/card";
 import { Spotlight } from "../ui/spotlight";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { useEffect, useState } from "react";
-import secureLocalStorage from "react-secure-storage";
 import useLeaderboardStore from "@/app/useLeaderboardStore";
 import { useSession } from "next-auth/react";
-
-export const STORAGE_KEY = "leaderboardData";
 
 interface UserCardProps {
   fullname: string;
@@ -18,95 +15,43 @@ interface UserCardProps {
   issueCount: number;
   bounty: number;
 }
-const getRankFromStorage = (): number | null => {
-  try {
-    console.log("Retrieving rank from storage...");
-    const storedData = secureLocalStorage.getItem(STORAGE_KEY);
-    console.log("Stored data:", storedData);
-    const parsedData = storedData ? JSON.parse(storedData as string) : null;
-
-    if (parsedData && parsedData.rank !== undefined) {
-      return parsedData.rank;
-    }
-    return null;
-  } catch (error) {
-    console.error("Error parsing stored rank data:", error);
-    return null;
-  }
-};
-
-// const getLeaderboardFromStorage = (): UserCardProps | null => {
-//   try {
-//     console.log("Retrieving user data from storage...");
-//     const storedData = secureLocalStorage.getItem(STORAGE_KEY);
-//     console.log("Stored data:", storedData);
-//     return storedData ? (JSON.parse(storedData as string) as UserCardProps) : null;
-//   } catch (error) {
-//     console.error("Error parsing stored user data:", error);
-//     return null;
-//   }
-// };
-
 const UserCard = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserCardProps | null>(null);
-  const [rank, setRank] = useState<number | null>();
-  const { data: session, status } = useSession()
+
+  const { data: session } = useSession();
   const getUserData = async () => {
     if (!session || !session.user) {
-      return
+      return;
     }
     const username = session.user.name;
-    console.log("username "+username)
     try {
-      console.log("Fetching user data...");
       const response = await fetch(`api/user?username=${username}`, {
         method: "GET",
       });
-      console.log("Response status:", response.status);
+
       if (response.status !== 200) {
-        console.error("Failed to fetch data. Status code:", response.status);
         return false;
       }
       const data = await response.json();
-      // const UserName=data.username
+
       setUserData(data);
-      console.log("Fetched data:", data);
-      // secureLocalStorage.setItem("username",UserName)
+
       return true;
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.log(error);
       return false;
     }
   };
 
   useEffect(() => {
     (async () => {
-      try {
-        console.log("Initializing data fetching...");
-        getUserData();
-        console.log("Fetched user data from storage:", userData);
+      getUserData();
 
-        // Log the rank from local storage
-        
-
-        console.log("setting rank");
-        console.log(rank)
-        // setRank(parseInt(rank as string));
-        // setTimeout(()=> {},1000);
-        console.log("User's rank from local storage:", rank);
-
-        if (userData) {
-          console.log("Setting user data:", userData);
-          setUserData(userData);
-        } else {
-          console.log("Failed to fetch data or user data is empty.");
-        }
-        setLoading(false);
-      } catch (error) {
-        console.error("Error during useEffect:", error);
-        setLoading(false);
+      if (userData) {
+        setUserData(userData);
       }
+      setLoading(false);
     })();
   }, []);
 
@@ -127,7 +72,6 @@ const UserCard = () => {
   }
 
   if (!userData) {
-    console.log("User data is null.");
     return (
       <div className="mx-4">
         <BackgroundGradient className="py-4">
@@ -144,8 +88,6 @@ const UserCard = () => {
     );
   }
 
-  console.log("Rendering UserCard with userData:", userData);
-
   return (
     <div className="mx-4">
       <BackgroundGradient className="py-4">
@@ -153,7 +95,7 @@ const UserCard = () => {
         <Card className="bg-[#050217] border-1 pb-6 relative rounded-xl shadow-lg mx-4">
           <div className="absolute top-[-60px] left-1/2 transform -translate-x-1/2">
             <div className="text-8xl text-[#ffcc00] font-bold animate-glow">
-             {useLeaderboardStore.getState().getRank(userData.username)}
+              {useLeaderboardStore.getState().getRank(userData.username)}
             </div>
           </div>
           <div className="flex justify-between items-center px-6 pt-8 space-x-6">
@@ -222,4 +164,3 @@ const UserCard = () => {
 };
 
 export default UserCard;
-
