@@ -4,76 +4,43 @@ import { Card, CardDescription } from "../ui/card";
 import { Spotlight } from "../ui/spotlight";
 import { BackgroundGradient } from "../ui/background-gradient";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react"
-import  secureLocalStorage  from  "react-secure-storage";
+import secureLocalStorage from "react-secure-storage";
 
 interface UserCardProps {
-  githubId: string;
-  currentRank: string;
-  prMergedCount: number;
-  TotalIssues:number;
-  InCompleteIssues:number;
-  // completedBounties: number;
-  totalBountyPoints: number;
-  // activeBountyProjects: ActiveBountyProject[] | undefined;
-  name: string;
+  fullname: string;
+  rollNumber: string;
+  username: string;
+  issues: { issueStatus: boolean; url: string }[];
+  issueCount: number;
+  bounty: number;
 }
 
-// TODO: This is not needed
-// interface ActiveBountyProject {
-//   projectTitle: string;
-//   issueNumber: number;
-//   bountyPoints: number;
-// }
-
-// TODO: Turn this into a recoil state
-const UserCardData: UserCardProps = {
-  name: "Ritesh Koushik",
-  githubId: "IAmRiteshKoushik",
-  currentRank: "0",
-  prMergedCount: 10,
-  TotalIssues:10,
-  InCompleteIssues:10,
-  totalBountyPoints: 100,
-};
-
-/* Incoming Data will have the following:
- * 1. Full name
- * 2. GitHub username
- * 3. Bounty earned
- * 4. PRs merged
- * 5. Total issues 
- * 6. Incomplete issues
- * 7. Ranking is to be derived from the leaderboard data recoil state
- */
-export const STORAGE_KEY = "userCardData";
-
+export const STORAGE_KEY = "leaderboardData";
 
 const getUserData = async (): Promise<boolean> => {
-  const { data: session, status } = useSession()
-  // TODO: Derive username from session data through useSession hook
-  const username = session?.user?.name;
+  const username = "vijaysb0613";
   try {
-    const response = await fetch(`api/user?username=${username}`, {
-      method: "GET",
-    });
+    console.log("Fetching user data...");
+    const response = await fetch(`api/user?username=${username}`, { method: "GET" });
+    console.log("Response status:", response.status);
     if (response.status !== 200) {
       return false;
     }
-    // Deserializing the JSON data to object only if status is 200
-    const data = response.json();
-    secureLocalStorage.setItem(STORAGE_KEY,data)
-    // TODO: Populate the recoil state
+    const data = await response.json();
+    console.log("Fetched data:", data);
+    secureLocalStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     return true;
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching user data:", error);
     return false;
   }
-}
+};
 
-const getUserDataFromStorage = (): UserCardProps | null => {
-  const storedData = secureLocalStorage.getItem(STORAGE_KEY);
+const getLeaderboardFromStorage = (): UserCardProps | null => {
   try {
+    console.log("Retrieving user data from storage...");
+    const storedData = secureLocalStorage.getItem(STORAGE_KEY);
+    console.log("Stored data:", storedData);
     return storedData ? (JSON.parse(storedData as string) as UserCardProps) : null;
   } catch (error) {
     console.error("Error parsing stored user data:", error);
@@ -81,37 +48,51 @@ const getUserDataFromStorage = (): UserCardProps | null => {
   }
 };
 
-const UserCard = () => 
-  {
-  // TODO: Bring in the recoil state which would contain all the necessary data
-  const [loading, SetLoading] = useState<boolean>(true);
-  const [FetchedUserCardData,setFetchedUserCardData] = useState<UserCardProps | null>(null);
-  
+const UserCard = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [userData, setUserData] = useState<UserCardProps | null>(null);
+
   useEffect(() => {
     (async () => {
-      const result = await getUserData();
-      const storedData = getUserDataFromStorage();
-      if (result !== true) 
-        {
-        SetLoading(true);
-        return;
+      try {
+        console.log("Initializing data fetching...");
+        const isUserDataFetched = await getUserData();
+        const userDataFromStorage = getLeaderboardFromStorage();
+        console.log("Fetched user data from storage:", userDataFromStorage);
+
+        if (isUserDataFetched && userDataFromStorage) {
+          console.log("Setting user data:", userDataFromStorage);
+          setUserData(userDataFromStorage);
+        } else {
+          console.log("Failed to fetch data or user data is empty.");
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error during useEffect:", error);
+        setLoading(false);
       }
-      SetLoading(false);
-      setFetchedUserCardData(storedData)
-      return;
     })();
-  } , []);
-
-  const isDataValid =
-  FetchedUserCardData &&
-  FetchedUserCardData.githubId &&
-  FetchedUserCardData.currentRank &&
-  FetchedUserCardData.prMergedCount !== undefined &&
-  FetchedUserCardData.totalBountyPoints !== undefined &&
-  FetchedUserCardData.name;
+  }, []);
 
 
-  if (!isDataValid) {
+  if (loading) {
+    return (
+      <div className="mx-4">
+        <BackgroundGradient className="py-4">
+          <Card className="bg-[#050217] border-1 pb-6 relative rounded-xl shadow-lg mx-4">
+            <div className="px-6 pt-6 text-center text-gray-300">
+              <h2 className="text-2xl text-[#c8c7cc] font-semibold">
+                Loading user data...
+              </h2>
+            </div>
+          </Card>
+        </BackgroundGradient>
+      </div>
+    );
+  }
+
+  if (!userData) {
+    console.log("User data is null.");
     return (
       <div className="mx-4">
         <BackgroundGradient className="py-4">
@@ -128,66 +109,66 @@ const UserCard = () =>
     );
   }
 
+  console.log("Rendering UserCard with userData:", userData);
+
   return (
     <div className="mx-4">
       <BackgroundGradient className="py-4">
         <Spotlight fill="blue" />
         <Card className="bg-[#050217] border-1 pb-6 relative rounded-xl shadow-lg mx-4">
-
-          <div className="absolute top-[-60px] left-1/2 transform -translate-x-1/2">
-            <div className="text-8xl text-[#ffcc00] font-bold animate-glow">{FetchedUserCardData.currentRank}</div>
-          </div>
-
           <div className="flex justify-between items-center px-6 pt-8 space-x-6">
-
             <div className="flex-shrink-0">
               <Image
-                src={`https://github.com/${FetchedUserCardData.githubId}.png`}
-                alt={`${FetchedUserCardData.githubId} profile`}
+                src={`https://github.com/${userData.username}.png`}
+                alt={`${userData.username} profile`}
                 width={128}
                 height={128}
                 className="rounded-lg border-2"
+                onError={() => console.error("Error loading GitHub profile image.")}
               />
             </div>
 
-
             <div className="text-center">
-              <h2 className="text-3xl text-[#6ee7b7] font-semibold">{FetchedUserCardData.name}</h2>
-              <p className="text-lg text-right text-gray-300">@{FetchedUserCardData.githubId}</p>
+              <h2 className="text-3xl text-[#6ee7b7] font-semibold">
+                {userData.fullname}
+              </h2>
+              <p className="text-lg text-right text-gray-300">@{userData.username}</p>
+              <p className="text-gray-400 text-sm">Roll No: {userData.rollNumber}</p>
             </div>
           </div>
 
-
           <div className="space-y-4 px-6 pt-6">
             <CardDescription className="text-xl text-gray-300">
-              🏆 <strong>{FetchedUserCardData.prMergedCount}</strong> pull requests successfully merged!
+              🎯 Total Completed Issues: <strong>{userData.issueCount}</strong>
             </CardDescription>
-
             <CardDescription className="text-xl text-gray-300">
-              🎯 You&apos;ve earned a total of <strong>{FetchedUserCardData.totalBountyPoints}</strong> bounty points from <strong>{FetchedUserCardData.TotalIssues}</strong> completed bounties.
+              🏆 Total Bounty Earned: <strong>{userData.bounty}</strong>
             </CardDescription>
 
-            {/* <CardDescription className="text-xl text-gray-300">
-              🔥 You have contributed to <strong>{UserCardData.activeBountyProjects?.length || 0}</strong> active projects:
-            </CardDescription> */}
+            <div className="text-gray-300">
+              <h3 className="text-lg font-semibold">Incomplete Issues:</h3>
+              {userData.issues.length > 0 ? (
+                <ul className="list-disc list-inside">
+                  {userData.issues
+                    .filter((issue) => !issue.issueStatus)
+                    .map((issue, index) => (
+                      <li key={index}>
+                        <a
+                          href={issue.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 hover:underline"
+                        >
+                          {issue.url}
+                        </a>
+                      </li>
+                    ))}
+                </ul>
+              ) : (
+                <p>No incomplete issues found.</p>
+              )}
+            </div>
           </div>
-
-
-          {/* <div className="px-6 space-y-4 py-4">
-            {UserCardData.activeBountyProjects && UserCardData.activeBountyProjects.length > 0 ? (
-              UserCardData.activeBountyProjects.map((project) => (
-                <div key={project.issueNumber} className="bg-[#1d1b2e] p-4 rounded-lg">
-                  <h4 className="text-lg text-[#6ee7b7] font-semibold">{project.projectTitle}</h4>
-                  <p className="text-sm text-gray-400">Issue #{project.issueNumber}</p>
-                  <p className="text-sm text-gray-400">💰 {project.bountyPoints} Bounty Points</p>
-                </div>
-              ))
-            ) : (
-              <div className="bg-[#1d1b2e] p-4 rounded-lg">
-                <p className="text-sm text-gray-400">You have no active bounty projects at the moment.</p>
-              </div>
-            )}
-          </div> */}
         </Card>
       </BackgroundGradient>
     </div>

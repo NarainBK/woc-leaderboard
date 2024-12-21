@@ -5,7 +5,8 @@ import Projects from "./projects";
 import Rowcards from "./rowcards";
 import { ScrollArea } from "@/app/components/ui/scroll-area";
 import { useEffect, useState } from "react";
-
+import secureLocalStorage from "react-secure-storage";
+import { STORAGE_KEY } from "./usercard";
 // const names = [
 //   ["Ashwin Narayanan S", "Ashrockzzz2003"],
 //   ["Abhinav Ramakrishnan", "Abhinav-ark"],
@@ -116,7 +117,7 @@ const Leaderboard = () => {
       }
   
       const data = await request.json();
-      console.log("Fetched leaderboard data:", data); // Log the response
+      // console.log("Fetched leaderboard data:", data); // Log the response
   
       // Ensure you're accessing the correct data inside the "leaderboard" key
       return Array.isArray(data.leaderboard) ? data.leaderboard : [];
@@ -125,21 +126,30 @@ const Leaderboard = () => {
       return [];
     }
   };
+  const saveIndexesToStorage = (data: any[]) => {
+    data.forEach((user, index) => {
+      // Store the index in secureLocalStorage with the username as the key
+      secureLocalStorage.setItem(user.username, index);
+    });
+    console.log("Indexes saved to storage");
+  };
+
   
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       const data = await getLeaderboardData();
       setLeaderboardData(data);
+      saveIndexesToStorage(data); 
       setLoading(false);
-      console.log("Leaderboard Data after fetch:", data); 
+      // console.log("Leaderboard Data after fetch:", data); 
     };
     fetchLeaderboard();
   }, []);
 
-  const sortedData = leaderboardData.sort(
-    (a, b) => b.bounty - a.bounty
-  );
+  // const sortedData = leaderboardData.sort(
+  //   (a, b) => b.bounty - a.bounty
+  // );
 
 
  
@@ -182,14 +192,14 @@ const Leaderboard = () => {
                 Can't show leaderboard stats
               </div>
             ) : (
-              sortedData.map((data, index) => (
+              leaderboardData.map((data, index) => (
                 <Rowcards
                   key={index}
                   index={index + 1}
                   avatar_url={`https://github.com/${data.username}.png`}
                   fullName={data.fullName}
                   username={data.username}
-                  PRmerged={data.PRmerged}
+                  PRmerged={data.Solution.length}
                   bounty={data.bounty}
                 />
               ))
