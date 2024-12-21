@@ -6,6 +6,7 @@ import { BackgroundGradient } from "../ui/background-gradient";
 import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import useLeaderboardStore from "@/app/useLeaderboardStore";
+import { useSession } from "next-auth/react";
 
 export const STORAGE_KEY = "leaderboardData";
 
@@ -50,9 +51,13 @@ const UserCard = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [userData, setUserData] = useState<UserCardProps | null>(null);
   const [rank, setRank] = useState<number | null>();
-
+  const { data: session, status } = useSession()
   const getUserData = async () => {
-    const username = "vijaysb0613";
+    if (!session || !session.user) {
+      return
+    }
+    const username = session.user.name;
+    console.log("username "+username)
     try {
       console.log("Fetching user data...");
       const response = await fetch(`api/user?username=${username}`, {
