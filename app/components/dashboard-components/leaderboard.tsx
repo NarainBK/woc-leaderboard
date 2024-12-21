@@ -4,12 +4,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Projects from "./projects";
 import Rowcards from "./rowcards";
 import { ScrollArea } from "@/app/components/ui/scroll-area";
-import { useEffect, useState } from "react";
-import secureLocalStorage from "react-secure-storage";
-import { STORAGE_KEY } from "./usercard";
+import { useEffect } from "react";
 import useLeaderboardStore from "@/app/useLeaderboardStore";
-
-
 
 export type TUserData = {
   fullName: string;
@@ -19,10 +15,7 @@ export type TUserData = {
   _count: { Solution: string };
 };
 const Leaderboard = () => {
-  const {User,setUser} = useLeaderboardStore();
-  // const [loading, setLoading] = useState<boolean>(true);
-
-  
+  const { User, setUser } = useLeaderboardStore();
   const getLeaderboardData = async () => {
     try {
       const request = await fetch("/api/leaderboard", {
@@ -39,46 +32,21 @@ const Leaderboard = () => {
       const data = await request.json();
       data.leaderboard.forEach((userData: TUserData, index: number) => {
         const rank = index + 1;
-        setUser(userData.fullName,userData.username,rank,userData.bounty,userData.accountActive,userData._count); // Save rank to Zustand
+        setUser(
+          userData.fullName,
+          userData.username,
+          rank,
+          userData.bounty,
+          userData.accountActive,
+          userData._count
+        ); // Save rank to Zustand
       });
     } catch (error) {
       console.log("Error fetching leaderboard data", error);
     }
   };
-
-  // const saveUserRankToStorage = (username: string, rank: number) => {
-  //   try {
-  //     const storedData = secureLocalStorage.getItem(STORAGE_KEY);
-  //     if (storedData && typeof storedData === "string") {
-  //       // Ensure it's a string
-  //       const parsedData = JSON.parse(storedData);
-  //       parsedData.rank = rank;
-  //       secureLocalStorage.setItem(STORAGE_KEY, JSON.stringify(parsedData));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving rank to storage:", error);
-  //   }
-  // };
-
-  // leaderboardData.forEach((userData, index) => {
-  //   const rank = index + 1;
-  //   secureLocalStorage.setItem(userData.username, rank);
-  // });
-
   useEffect(() => {
     getLeaderboardData();
-    // const session = useSession();
-    // if (session?.status !== "unauthenticated") {
-    // const fetchLeaderboard = async () => {
-    // const data = await getLeaderboardData();
-    // setLeaderboardData(data);
-
-    // const storedData = secureLocalStorage.getItem(STORAGE_KEY);
-    // console.log("Stored data in localStorage:", storedData); // Log to check the stored data
-    // setLoading(false);
-    // };
-    // fetchLeaderboard();
-    // }
   }, []);
 
   return (
@@ -116,7 +84,7 @@ const Leaderboard = () => {
                 Loading Leaderboard...
               </div>
             ) : (
-               Object.entries(User).map(([username, data]) => (
+              Object.entries(User).map(([username, data]) => (
                 <Rowcards
                   key={data.rank}
                   index={data.rank}
@@ -140,4 +108,3 @@ const Leaderboard = () => {
 };
 
 export default Leaderboard;
-
