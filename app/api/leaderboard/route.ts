@@ -10,7 +10,11 @@ export async function GET() {
         username: true,
         bounty: true,
         accountActive: true,
-        Solution: true,
+        _count: {
+          select: {
+            Solution: true
+          }
+        }
       },
       orderBy: {
         bounty: 'desc',

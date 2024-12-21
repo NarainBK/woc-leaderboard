@@ -1,30 +1,30 @@
 "use client";
-
 import Image from "next/image";
 import Leaderboard from "./components/dashboard-components/leaderboard";
 import { Separator } from "@/app/components/ui/separator";
-// import Usercard from "./components/dashboard-components/usercard";
+import Usercard from "./components/dashboard-components/usercard";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Snowfall from "./components/dashboard-components/Snowfall";
 import Home from "./components/dashboard-components/Home";
-
+import { useSession } from "next-auth/react";
 
 const dashboard = () => {
+  const { data: session, status } = useSession();
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col max-h-screen items-center">
           <Navbar />
-          <Home />
+
+          {session && session.user ? (
+            <div className="w-full flex justify-center items-center pt-20">
+              <Usercard />
+            </div>
+          ) : (
+            <Home />
+          )}
         </div>
-        
-        
-        {/* show the below div if user is logged in*/}
-        {/* <div className="w-full flex justify-center items-center pt-20">
-          <Usercard />
-        </div> */}
-        
 
         <div className="md:hidden">
           <Separator orientation="vertical" />

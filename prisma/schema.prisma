@@ -17,41 +17,26 @@ model Participant {
   fullName      String
   rollNumber    String     @unique
   mobileNumber  String     @unique
-  username      String     @unique
+  username      String     @id
+  providerId    String?
   bounty        Int?       @default(0)
   accountActive Boolean?   @default(true)
   Solution      Solution[]
 }
 
-model Maintainer {
-  fullName               String
-  githubURL              String                   @unique
-  MaintainersForProjects MaintainersForProjects[]
-}
-
-model MaintainersForProjects {
-  githubURL String
-  repoId    String
-
-  maintainer Maintainer @relation(fields: [githubURL], references: [githubURL])
-  project    Project    @relation(fields: [repoId], references: [repoId])
-
-  @@id([githubURL, repoId])
-}
-
 model Project {
-  repoId                 String                   @id
-  title                  String
-  MaintainersForProjects MaintainersForProjects[]
-  solution               Solution[]
-  Issue                  Issue[]
+  repoId   String     @id
+  webhook  String     @unique
+  title    String
+  solution Solution[]
+  Issue    Issue[]
 }
 
 model Issue {
   issueId     String  @id
   repoId      String
   url         String
-  claimedBy   String
+  claimedBy   String?
   issueStatus Boolean @default(true)
 
   project Project @relation(fields: [repoId], references: [repoId])
@@ -61,16 +46,10 @@ model Solution {
   id       String         @id
   repoId   String
   username String
-  status   SolutionStatus @default(Open)
+  url      String
 
   participant Participant @relation(fields: [username], references: [username])
   project     Project     @relation(fields: [repoId], references: [repoId])
-}
-
-enum SolutionStatus {
-  Open
-  Closed
-  Merged
 }
 
 model BountyLog {
