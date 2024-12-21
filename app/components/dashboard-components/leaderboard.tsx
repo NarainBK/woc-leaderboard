@@ -7,12 +7,23 @@ import { ScrollArea } from "@/app/components/ui/scroll-area";
 import { useEffect, useState } from "react";
 import secureLocalStorage from "react-secure-storage";
 import { STORAGE_KEY } from "./usercard";
+import useLeaderboardStore from "@/app/useLeaderboardStore";
 
+
+
+export type TUserData = {
+  fullName: string;
+  username: string;
+  bounty: number;
+  accountActive: boolean;
+  _count: { Solution: string };
+};
 const Leaderboard = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
+  const {User,setUser} = useLeaderboardStore();
+  // const [loading, setLoading] = useState<boolean>(true);
 
-  const getLeaderboardData = async (): Promise<any[]> => {
+  
+  const getLeaderboardData = async () => {
     try {
       const request = await fetch("/api/leaderboard", {
         method: "GET",
@@ -23,48 +34,52 @@ const Leaderboard = () => {
 
       if (request.status !== 200) {
         console.log("Error fetching leaderboard data", request.status);
-        return [];
       }
 
       const data = await request.json();
-      return Array.isArray(data.leaderboard) ? data.leaderboard : [];
+      data.leaderboard.forEach((userData: TUserData, index: number) => {
+        const rank = index + 1;
+        setUser(userData.fullName,userData.username,rank,userData.bounty,userData.accountActive,userData._count); // Save rank to Zustand
+      });
     } catch (error) {
       console.log("Error fetching leaderboard data", error);
-      return [];
     }
   };
 
-  const saveUserRankToStorage = (username: string, rank: number) => {
-    try {
-      const storedData = secureLocalStorage.getItem(STORAGE_KEY);
-      if (storedData && typeof storedData === 'string') { // Ensure it's a string
-        const parsedData = JSON.parse(storedData);
-        parsedData.rank = rank;
-        secureLocalStorage.setItem(STORAGE_KEY, JSON.stringify(parsedData));
-      }
-    } catch (error) {
-      console.error("Error saving rank to storage:", error);
-    }
-  };
+  // const saveUserRankToStorage = (username: string, rank: number) => {
+  //   try {
+  //     const storedData = secureLocalStorage.getItem(STORAGE_KEY);
+  //     if (storedData && typeof storedData === "string") {
+  //       // Ensure it's a string
+  //       const parsedData = JSON.parse(storedData);
+  //       parsedData.rank = rank;
+  //       secureLocalStorage.setItem(STORAGE_KEY, JSON.stringify(parsedData));
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving rank to storage:", error);
+  //   }
+  // };
+
+  // leaderboardData.forEach((userData, index) => {
+  //   const rank = index + 1;
+  //   secureLocalStorage.setItem(userData.username, rank);
+  // });
 
   useEffect(() => {
-    const fetchLeaderboard = async () => {
-      const data = await getLeaderboardData();
-      setLeaderboardData(data);
-  
-      data.forEach((userData, index) => {
-        const rank = index + 1;
-        saveUserRankToStorage(userData.username, rank);
-      });
-  
-      // Check if the rank is stored in localStorage after updating
-      const storedData = secureLocalStorage.getItem(STORAGE_KEY);
-      console.log("Stored data in localStorage:", storedData); // Log to check the stored data
-      setLoading(false);
-    };
-    fetchLeaderboard();
+    getLeaderboardData();
+    // const session = useSession();
+    // if (session?.status !== "unauthenticated") {
+    // const fetchLeaderboard = async () => {
+    // const data = await getLeaderboardData();
+    // setLeaderboardData(data);
+
+    // const storedData = secureLocalStorage.getItem(STORAGE_KEY);
+    // console.log("Stored data in localStorage:", storedData); // Log to check the stored data
+    // setLoading(false);
+    // };
+    // fetchLeaderboard();
+    // }
   }, []);
-  
 
   return (
     <Card className="bg-transparent border-none p-6 relative rounded-none z-50 w-full max-h-screen overflow-y-auto">
@@ -96,23 +111,19 @@ const Leaderboard = () => {
           </div>
 
           <ScrollArea className="max-h-[75vh] overflow-y-auto overflow-x-auto relative">
-            {loading ? (
+            {Object.keys(User).length === 0 ? (
               <div className="text-center text-2xl text-[#c8c7cc] p-4">
-                Loading leaderboard data...
-              </div>
-            ) : leaderboardData.length === 0 ? (
-              <div className="text-center text-2xl text-[#c8c7cc] p-4">
-                Can't show leaderboard stats
+                Loading Leaderboard...
               </div>
             ) : (
-              leaderboardData.map((data, index) => (
+               Object.entries(User).map(([username, data]) => (
                 <Rowcards
-                  key={index}
-                  index={index + 1}
-                  avatar_url={`https://github.com/${data.username}.png`}
+                  key={data.rank}
+                  index={data.rank}
+                  avatar_url={`https://github.com/${username}.png`}
                   fullName={data.fullName}
-                  username={data.username}
-                  PRmerged={data.Solution.length}
+                  username={username}
+                  PRmerged={parseInt(data._count.Solution)}
                   bounty={data.bounty}
                 />
               ))
@@ -129,3 +140,4 @@ const Leaderboard = () => {
 };
 
 export default Leaderboard;
+
