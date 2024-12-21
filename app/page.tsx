@@ -8,14 +8,15 @@ import Navbar from "./components/Navbar";
 import Snowfall from "./components/dashboard-components/Snowfall";
 import Home from "./components/dashboard-components/Home";
 import { useSession } from "next-auth/react";
+
 const dashboard = () => {
   const { data: session, status } = useSession();
-
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col max-h-screen items-center">
           <Navbar />
+
           {session && session.user ? (
             <div className="w-full flex justify-center items-center pt-20">
               <Usercard />
