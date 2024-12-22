@@ -1,7 +1,10 @@
 import prisma from "@/app/db";
+import { unstable_cacheLife as cacheLife } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  'use cache'
+  cacheLife('minutes');
   // Fetch all participants from the leaderboard based on bounty and return 
   try {
     const data = await prisma.participant.findMany({
