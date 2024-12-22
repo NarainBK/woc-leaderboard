@@ -8,7 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   const session = await getServerSession(NEXT_AUTH);
 
-
+  
   if (!session) {
     return NextResponse.json(
       {
