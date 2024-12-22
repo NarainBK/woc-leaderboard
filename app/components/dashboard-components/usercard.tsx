@@ -134,7 +134,7 @@ const UserCard = () => {
             </CardDescription>
 
             <div className="text-gray-300">
-              <h3 className="text-lg font-semibold">Incomplete Issues:</h3>
+              <h3 className="text-lg font-semibold">Completed Issues:</h3>
               {userData.issues.length > 0 ? (
                 <ul className="list-disc list-inside">
                   {userData.issues
@@ -153,7 +153,7 @@ const UserCard = () => {
                     ))}
                 </ul>
               ) : (
-                <p>No incomplete issues found.</p>
+                <p>You are yet to complete an Issue!</p>
               )}
             </div>
           </div>
