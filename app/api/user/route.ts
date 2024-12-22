@@ -8,7 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   const session = await getServerSession(NEXT_AUTH);
 
-  if (!session) {
+  if (!session || !session.user) {
     return NextResponse.json(
       {
         error: "Unauthorized access! Not logged in."
@@ -62,7 +62,6 @@ export async function GET(request: NextRequest) {
       const issues = await tx.issue.findMany({
         where: {
           claimedBy: user.username,
-          issueStatus: false,
         },
         select: {
           issueStatus: true,

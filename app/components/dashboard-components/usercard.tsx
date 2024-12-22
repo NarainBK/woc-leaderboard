@@ -135,7 +135,7 @@ const UserCard = () => {
 
             <div className="text-gray-300">
               <h3 className="text-lg font-semibold">Completed Issues:</h3>
-              {userData.issues.length > 0 ? (
+              {userData.issues.filter(issue => !issue.issueStatus).length > 0 ? (
                 <ul className="list-disc list-inside">
                   {userData.issues
                     .filter((issue) => !issue.issueStatus)
