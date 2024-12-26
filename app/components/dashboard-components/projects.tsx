@@ -5,6 +5,14 @@ import ProjectCard from "./projectcard";
 
 const ProjectData = [
   {
+    name: "Molecule Visualizer",
+    projectUrl: "https://github.com/TharunKumarrA/Molecule-Visualiser-DSA",
+    blurb:
+      "An innovative tool for visualizing and manipulating chemical molecules in 3D space using graph data structures. It features real-time updates, cycle detection, and molecular geometry analysis for educational and research purposes.",
+    techstack: ["React", "MaterialUI", "Tailwind", "NodeJS", "Expressjs", "PlotlyJS"],
+    maintainer: ["Tharun Kumarr A"],
+  },
+  {
     name: "Quick Start Express",
     projectUrl: "https://github.com/CSE-25/quick_start_express",
     blurb:
