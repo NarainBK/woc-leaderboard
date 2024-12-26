@@ -5,6 +5,13 @@ import ProjectCard from "./projectcard";
 
 const ProjectData = [
   {
+    name: "Winter of Code - Leaderboard",
+    projectUrl: "https://github.com/IAmRiteshKoushik/woc-leaderboard",
+    blurb: "The leaderboard which defined spirit of open-source at ACM@Amrita's Winter of Code. Create new issues, roll out fixes and improve the look and feel!",
+    techstack: ["NextJS", "React", "Tailwind", "typescript", "javascript", "Prisma", "shadCN"],
+    maintainer: ["IAmRiteshKoushik"],
+  },
+  {
     name: "Molecule Visualizer",
     projectUrl: "https://github.com/TharunKumarrA/Molecule-Visualiser-DSA",
     blurb:
