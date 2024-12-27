@@ -5,6 +5,22 @@ import ProjectCard from "./projectcard";
 
 const ProjectData = [
   {
+    name: "FC-TeamForge",
+    projectUrl: "https://github.com/TharunKumarrA/FC-TeamForge",
+    blurb:
+      "FC-TeamForge, the ultimate solution for effortlessly creating balanced football teams from a pool of real-life players. No more debates, no more uneven teams – just smooth, hassle-free team formation!",
+    techstack: ["VueJS", "HTML", "CSS", "JavaScript"],
+    maintainer: ["Tharun Kumarr A", "Thanus Kumaar A"],
+  },
+  {
+    name: "FC-TeamForge Server",
+    projectUrl: "https://github.com/Thanus-Kumaar/FC-TeamForge-server",
+    blurb:
+      "The repository containing server code for FC-TeamForge.",
+    techstack: ["JavaScript", "NodeJS", "Expressjs", "mysql"],
+    maintainer: ["Thanus Kumaar A"],
+  },
+  {
     name: "Winter of Code - Leaderboard",
     projectUrl: "https://github.com/IAmRiteshKoushik/woc-leaderboard",
     blurb: "The leaderboard which defined spirit of open-source at ACM@Amrita's Winter of Code. Create new issues, roll out fixes and improve the look and feel!",
