@@ -16,10 +16,18 @@ export async function GET() {
           }
         }
       },
-      orderBy: {
-        bounty: 'desc',
-      },
+      // orderBy: {
+      //   _count: {
+      //       Solution: 'desc'
+      //   // bounty: 'asc',
+      //   }
+      // },
     });
+    
+    // Sort the fetched data in JavaScript
+    const sortedData = data.sort((a, b) => b._count.Solution - a._count.Solution);
+    
+
     return NextResponse.json(
       {
         leaderboard: data
